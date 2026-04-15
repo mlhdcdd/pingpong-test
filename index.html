@@ -43,7 +43,9 @@
         radial-gradient(1px 1px at 20% 30%, rgba(255,255,255,.35), transparent 2px),
         radial-gradient(1px 1px at 70% 60%, rgba(255,255,255,.25), transparent 2px),
         linear-gradient(180deg, var(--bg0), var(--bg1));
-      min-height:100vh;
+      /* 微信/iOS 下 vh 可能不等于可视高度，使用 dvh + --vh 兜底 */
+      min-height:100dvh;
+      min-height:calc(var(--vh, 1vh) * 100);
     }
     body:before{
       content:"";
@@ -913,6 +915,87 @@
       .explain-grid,
       .gallery-grid{
         grid-template-columns:1fr;
+      }
+
+      /* ===== 移动端：答题页单列/更易操作 ===== */
+      #questionScreen .topbar{
+        position:sticky;
+        top:0;
+        z-index:20;
+        padding-top:6px;
+        background:linear-gradient(180deg, rgba(7,10,26,.92), rgba(7,10,26,.55), transparent);
+        backdrop-filter:blur(10px);
+      }
+
+      #questionScreen .progress-box{
+        padding:12px;
+      }
+
+      #questionScreen .dimension-row{
+        display:flex;
+        gap:8px;
+        overflow:auto;
+        -webkit-overflow-scrolling:touch;
+        padding-bottom:2px;
+        scroll-snap-type:x mandatory;
+      }
+      #questionScreen .chip{
+        flex:0 0 auto;
+        white-space:nowrap;
+        scroll-snap-align:start;
+        padding:10px 12px;
+      }
+
+      #questionScreen .question-card{
+        padding:14px;
+        border-radius:20px;
+      }
+      #questionScreen .q-title{
+        font-size:20px;
+        line-height:1.55;
+      }
+      #questionScreen .scale-wrap{margin-top:14px}
+
+      /* 五级量表：移动端改竖排大按钮（更好点） */
+      #questionScreen .scale-grid{
+        grid-template-columns:1fr;
+        gap:10px;
+      }
+      #questionScreen .scale-btn{
+        min-height:56px;
+        padding:12px 12px;
+        border-radius:16px;
+        text-align:left;
+        display:flex;
+        align-items:center;
+        gap:12px;
+      }
+      #questionScreen .scale-num{
+        margin:0;
+        width:34px;
+        height:34px;
+        flex:0 0 auto;
+      }
+      #questionScreen .scale-text{
+        font-size:14px;
+        line-height:1.35;
+      }
+
+      /* 固定底部操作区 + 为内容预留空间，避免被遮挡/看不全 */
+      #questionScreen{
+        padding-bottom:calc(92px + var(--safe-bottom));
+      }
+      #questionScreen .bottom-actions{
+        position:fixed;
+        left:14px;
+        right:14px;
+        bottom:calc(10px + var(--safe-bottom));
+        margin-top:0;
+        z-index:30;
+        pointer-events:none;
+      }
+      #questionScreen .bottom-bar{
+        pointer-events:auto;
       }
     }
   </style>
@@ -3195,6 +3278,16 @@ function fallbackCopy(text) {
    初始化
 ========================= */
 (function init() {
+  // 微信/iOS：用 innerHeight 兜底可视高度，避免 100vh 导致的“看不全/滑不动”
+  const setVh = () => {
+    const vh = window.innerHeight * 0.01;
+    document.documentElement.style.setProperty("--vh", `${vh}px`);
+  };
+  setVh();
+  window.addEventListener("resize", setVh, { passive: true });
+  window.addEventListener("orientationchange", setVh, { passive: true });
+  window.addEventListener("pageshow", setVh, { passive: true });
+
   loadState();
   syncProfileUI();
 
