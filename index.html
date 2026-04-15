@@ -1,0 +1,2538 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>乒乓球人格测试｜24题五级量表专业版</title>
+  <style>
+    :root{
+      --bg:#f4f7fb;
+      --card:#ffffff;
+      --text:#172033;
+      --muted:#667085;
+      --line:#e6ebf2;
+      --primary:#4f7cff;
+      --primary2:#7c5cff;
+      --soft:rgba(79,124,255,.10);
+      --shadow:0 18px 44px rgba(15,23,42,.10);
+      --shadow-soft:0 10px 28px rgba(2,6,23,.06);
+      --radius:22px;
+      --safe-bottom:max(18px, env(safe-area-inset-bottom));
+    }
+    *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+    html,body{margin:0;padding:0}
+    body{
+      font-family:"PingFang SC","Microsoft YaHei",system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+      color:var(--text);
+      background:
+        radial-gradient(circle at 0% 0%, rgba(124,92,255,.14), transparent 28%),
+        radial-gradient(circle at 100% 0%, rgba(79,124,255,.10), transparent 26%),
+        linear-gradient(180deg,#f8fbff,#f4f7fb);
+      min-height:100vh;
+    }
+    .app{
+      width:min(100%,780px);
+      margin:0 auto;
+      padding:14px 14px calc(20px + var(--safe-bottom));
+    }
+    .screen{display:none}
+    .screen.active{display:block;animation:fadeUp .28s ease}
+    @keyframes fadeUp{
+      from{opacity:0;transform:translateY(8px)}
+      to{opacity:1;transform:translateY(0)}
+    }
+
+    .hero{
+      position:relative;overflow:hidden;border-radius:30px;padding:24px 18px;color:#fff;
+      background:linear-gradient(135deg,var(--primary),var(--primary2));
+      box-shadow:0 24px 50px rgba(79,124,255,.22);
+    }
+    .hero:before{
+      content:"";position:absolute;right:-40px;top:-40px;width:180px;height:180px;border-radius:50%;
+      background:rgba(255,255,255,.10)
+    }
+    .hero:after{
+      content:"";position:absolute;left:-24px;bottom:-24px;width:110px;height:110px;border-radius:50%;
+      background:rgba(255,255,255,.08)
+    }
+    .badge{
+      display:inline-flex;align-items:center;gap:8px;padding:7px 12px;border-radius:999px;
+      font-size:12px;font-weight:800;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.18);
+      position:relative;z-index:1;
+    }
+    .hero h1{
+      margin:14px 0 8px;font-size:32px;line-height:1.08;letter-spacing:-.8px;position:relative;z-index:1;
+    }
+    .hero p{
+      margin:0;font-size:14px;line-height:1.8;color:rgba(255,255,255,.92);position:relative;z-index:1;
+    }
+
+    .stats{
+      display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:16px;position:relative;z-index:1;
+    }
+    .glass{
+      background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.16);
+      border-radius:18px;padding:14px 12px;backdrop-filter:blur(10px);
+    }
+    .glass .k{font-size:11px;color:rgba(255,255,255,.82);margin-bottom:6px}
+    .glass .v{font-size:20px;font-weight:900}
+
+    .card{
+      background:#fff;border-radius:24px;box-shadow:var(--shadow);padding:18px;margin-top:14px;
+    }
+    .title{margin:0 0 8px;font-size:22px;letter-spacing:-.4px}
+    .sub{color:var(--muted);font-size:13px;line-height:1.8}
+    .grid-2{display:grid;gap:12px}
+    @media(min-width:768px){.grid-2{grid-template-columns:1fr 1fr}}
+
+    .field{
+      margin-top:14px;
+    }
+    .label{
+      font-size:13px;font-weight:800;color:#344054;margin-bottom:8px;
+    }
+    .input{
+      width:100%;border:1px solid var(--line);border-radius:16px;padding:14px 14px;font-size:15px;
+      outline:none;background:#fff;
+    }
+    .input:focus{border-color:var(--primary);box-shadow:0 0 0 4px rgba(79,124,255,.08)}
+
+    .avatar-box{
+      display:flex;align-items:center;gap:14px;flex-wrap:wrap;
+    }
+    .avatar-preview{
+      width:72px;height:72px;border-radius:50%;overflow:hidden;background:#eef2ff;
+      border:2px solid #dbe5ff;display:flex;align-items:center;justify-content:center;
+      color:var(--primary);font-weight:900;font-size:24px;
+    }
+    .avatar-preview img{width:100%;height:100%;object-fit:cover}
+    .avatar-actions{display:flex;gap:10px;flex-wrap:wrap}
+    .file-btn{
+      display:inline-flex;align-items:center;justify-content:center;border-radius:14px;padding:12px 14px;
+      background:#eef2ff;border:none;color:#344054;font-weight:800;font-size:14px;cursor:pointer;
+    }
+    .file-input{display:none}
+
+    .intro-list{display:grid;gap:12px;margin-top:16px}
+    .intro-item{
+      border:1px solid var(--line);border-radius:18px;padding:16px;background:linear-gradient(180deg,#fff,#fbfdff);
+      box-shadow:var(--shadow-soft);
+    }
+    .intro-top{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+    .icon{
+      width:38px;height:38px;border-radius:12px;display:flex;align-items:center;justify-content:center;
+      background:var(--soft);color:var(--primary);font-weight:900;font-size:12px;
+    }
+    .intro-item h3{margin:0;font-size:16px}
+    .intro-item p{margin:0;color:var(--muted);font-size:13px;line-height:1.8}
+
+    .btn-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+    button{
+      border:none;cursor:pointer;transition:.2s ease;font-size:15px;font-weight:800;border-radius:16px;
+      padding:14px 16px;min-height:48px;
+    }
+    button:active{transform:scale(.98)}
+    .btn-primary{
+      color:#fff;background:linear-gradient(135deg,var(--primary),var(--primary2));
+      box-shadow:0 14px 28px rgba(79,124,255,.22);flex:1;
+    }
+    .btn-secondary{color:#344054;background:#eef2ff;flex:1}
+    .btn-ghost{color:#344054;background:#fff;border:1px solid var(--line);flex:1}
+    .mini-btn{
+      border:1px solid var(--line);background:#fff;color:#344054;border-radius:14px;padding:10px 12px;
+      font-size:13px;font-weight:800;min-height:auto;cursor:pointer;
+    }
+
+    .topbar{
+      display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px;
+    }
+    .progress-box{
+      border-radius:18px;padding:14px;background:linear-gradient(180deg,#f8fbff,#fff);
+      border:1px solid var(--line);margin-bottom:14px;
+    }
+    .progress-meta{
+      display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:10px;
+      font-size:13px;font-weight:800;color:#475467;
+    }
+    .progress{
+      width:100%;height:10px;border-radius:999px;background:#e8eef7;overflow:hidden;
+    }
+    .progress-fill{
+      width:0%;height:100%;border-radius:999px;background:linear-gradient(90deg,var(--primary),var(--primary2));
+      transition:width .28s ease;
+    }
+    .dimension-row{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:12px}
+    .chip{
+      font-size:12px;padding:10px;border-radius:14px;border:1px solid var(--line);background:#fff;color:#475467;
+      text-align:center;font-weight:700;
+    }
+
+    .question-card{
+      border:1px solid var(--line);border-radius:24px;padding:18px;background:linear-gradient(180deg,#fff,#fcfdff);
+      box-shadow:var(--shadow-soft);
+    }
+    .q-badge{
+      display:inline-flex;align-items:center;gap:8px;border-radius:999px;background:var(--soft);color:var(--primary);
+      font-weight:900;font-size:12px;padding:8px 12px;margin-bottom:12px;
+    }
+    .q-title{
+      margin:0;font-size:24px;line-height:1.5;letter-spacing:-.3px;
+    }
+    .q-desc{
+      margin-top:8px;color:var(--muted);font-size:13px;line-height:1.8;
+    }
+
+    .scale-wrap{margin-top:18px}
+    .scale-hint{
+      display:flex;justify-content:space-between;gap:8px;color:#667085;font-size:12px;font-weight:800;margin-bottom:10px;
+    }
+    .scale-grid{
+      display:grid;grid-template-columns:repeat(5,1fr);gap:10px;
+    }
+    .scale-btn{
+      background:#fff;border:1.5px solid var(--line);border-radius:18px;padding:14px 8px;text-align:center;
+      box-shadow:0 8px 24px rgba(15,23,42,.04);
+      min-height:88px;
+    }
+    .scale-btn.active{
+      border-color:var(--primary);background:linear-gradient(180deg,#fff,#f5f9ff);
+      box-shadow:0 14px 30px rgba(79,124,255,.10);
+    }
+    .scale-num{
+      width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+      margin:0 auto 8px auto;font-weight:900;font-size:15px;color:#fff;
+      background:linear-gradient(135deg,var(--primary),var(--primary2));
+    }
+    .scale-text{
+      font-size:12px;line-height:1.5;color:#344054;font-weight:800;
+    }
+
+    .bottom-actions{
+      position:sticky;bottom:calc(10px + var(--safe-bottom));margin-top:14px;z-index:10;
+    }
+    .bottom-bar{
+      display:grid;grid-template-columns:1fr 1.3fr 1fr;gap:10px;background:rgba(255,255,255,.90);
+      backdrop-filter:blur(14px);border:1px solid rgba(230,235,242,.9);border-radius:22px;padding:10px;
+      box-shadow:0 14px 30px rgba(15,23,42,.10);
+    }
+    .bottom-bar button[disabled]{opacity:.45;cursor:not-allowed}
+
+    .result-hero{
+      position:relative;overflow:hidden;border-radius:28px;color:#fff;padding:22px 18px;
+      background:linear-gradient(135deg,var(--primary),var(--primary2));box-shadow:0 24px 50px rgba(79,124,255,.20);
+    }
+    .result-hero:before{
+      content:"";position:absolute;right:-36px;top:-38px;width:180px;height:180px;border-radius:50%;
+      background:rgba(255,255,255,.10);
+    }
+    .code{
+      display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border-radius:999px;
+      background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.18);font-size:12px;font-weight:900;
+      position:relative;z-index:1;
+    }
+    .result-head{
+      display:flex;gap:14px;align-items:center;flex-wrap:wrap;position:relative;z-index:1;
+    }
+    .result-avatar{
+      width:68px;height:68px;border-radius:50%;overflow:hidden;border:2px solid rgba(255,255,255,.22);
+      background:rgba(255,255,255,.12);display:flex;align-items:center;justify-content:center;font-size:26px;font-weight:900;
+    }
+    .result-avatar img{width:100%;height:100%;object-fit:cover}
+    .result-user{
+      display:flex;flex-direction:column;gap:6px;
+    }
+    .result-user .name{font-size:14px;font-weight:800;color:rgba(255,255,255,.92)}
+    .result-hero h2{
+      margin:14px 0 8px;font-size:34px;line-height:1.08;letter-spacing:-.8px;position:relative;z-index:1;
+    }
+    .result-hero p{
+      margin:0;font-size:14px;line-height:1.85;color:rgba(255,255,255,.90);position:relative;z-index:1;
+    }
+    .tags{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px;position:relative;z-index:1}
+    .tag{
+      padding:8px 12px;border-radius:999px;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.18);
+      font-size:12px;font-weight:800;
+    }
+
+    .grid{display:grid;gap:14px;margin-top:14px}
+    .section-card{
+      background:#fff;border:1px solid var(--line);border-radius:22px;padding:16px;box-shadow:var(--shadow-soft);
+    }
+    .section-card h3{margin:0 0 12px;font-size:18px}
+    .metrics{display:grid;gap:12px}
+    .metric{
+      border:1px solid var(--line);border-radius:16px;padding:14px;background:linear-gradient(180deg,#fff,#fcfdff);
+    }
+    .metric .label{font-size:12px;color:var(--muted);margin-bottom:8px;font-weight:800}
+    .pair{
+      display:flex;justify-content:space-between;gap:8px;font-size:12px;font-weight:800;margin-bottom:8px;color:#344054;
+    }
+    .bar{
+      width:100%;height:10px;border-radius:999px;overflow:hidden;background:#e7edf7;
+    }
+    .bar span{
+      display:block;width:50%;height:100%;border-radius:999px;background:linear-gradient(90deg,var(--primary),var(--primary2));
+    }
+    ul{margin:0;padding-left:18px;color:#334155;line-height:1.85;font-size:14px}
+    .result-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
+    .note{
+      margin-top:14px;border-radius:18px;padding:14px 16px;background:#f8fbff;border:1px dashed #cfd7e6;
+      color:#475467;font-size:13px;line-height:1.8;
+    }
+
+    .radar-box{
+      display:grid;gap:14px;
+    }
+    .radar-canvas-wrap{
+      border:1px solid var(--line);border-radius:20px;padding:12px;background:linear-gradient(180deg,#fff,#fbfdff);
+    }
+    .radar-canvas-wrap canvas{width:100%;display:block}
+
+    .poster-modal{
+      position:fixed;inset:0;background:rgba(15,23,42,.52);display:none;align-items:flex-end;justify-content:center;
+      z-index:99;padding:14px;
+    }
+    .poster-modal.show{display:flex}
+    .poster-panel{
+      width:min(100%,720px);max-height:92vh;overflow:auto;background:#fff;border-radius:24px 24px 18px 18px;
+      padding:16px;box-shadow:0 30px 60px rgba(2,6,23,.28);
+    }
+    .poster-head{
+      display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:14px;
+    }
+    .poster-preview{
+      background:#f4f7fb;border:1px solid var(--line);border-radius:18px;padding:10px;overflow:auto;
+    }
+    .poster-preview canvas{
+      width:100%;display:block;border-radius:14px;background:#fff;
+    }
+
+    @media (min-width:768px){
+      .app{padding-top:22px}
+      .hero{padding:28px 24px}
+      .hero h1{font-size:42px}
+      .result-hero h2{font-size:42px}
+      .q-title{font-size:30px}
+      .metrics{grid-template-columns:1fr 1fr}
+      .radar-box{grid-template-columns:360px 1fr;align-items:center}
+    }
+
+    /* ===== 人格解释 / 图鉴增强 ===== */
+    .explain-card{
+      background:#fff;
+      border:1px solid #e8edf5;
+      border-radius:20px;
+      padding:18px;
+      box-shadow:0 10px 30px rgba(15,23,42,.06);
+    }
+
+    .explain-grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:14px;
+    }
+
+    .explain-block{
+      background:#f8fbff;
+      border:1px solid #e8eef8;
+      border-radius:16px;
+      padding:14px;
+    }
+
+    .explain-block.full{
+      grid-column:1 / -1;
+    }
+
+    .explain-block .label{
+      font-size:12px;
+      color:#6b7280;
+      margin-bottom:8px;
+      font-weight:700;
+      letter-spacing:.2px;
+    }
+
+    .explain-block .text{
+      font-size:14px;
+      color:#111827;
+      line-height:1.7;
+    }
+
+    .explain-block ul{
+      margin:0;
+      padding-left:18px;
+      color:#111827;
+    }
+
+    .explain-block li{
+      margin:6px 0;
+      line-height:1.6;
+    }
+
+    .quote-box{
+      margin-top:14px;
+      padding:14px 16px;
+      border-radius:16px;
+      background:linear-gradient(135deg,#eff6ff,#f8fbff);
+      border:1px solid #dbeafe;
+    }
+
+    .quote-box .quote{
+      font-size:15px;
+      font-weight:800;
+      color:#1d4ed8;
+      line-height:1.7;
+    }
+
+    .gallery-trigger{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      margin-top:14px;
+    }
+
+    .gallery-grid{
+      display:grid;
+      grid-template-columns:repeat(2, minmax(0,1fr));
+      gap:12px;
+      margin-top:14px;
+    }
+
+    .gallery-card{
+      background:#fff;
+      border:1px solid #e7ecf3;
+      border-radius:18px;
+      padding:14px;
+      box-shadow:0 8px 24px rgba(15,23,42,.05);
+    }
+
+    .gallery-card .top{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:8px;
+      margin-bottom:8px;
+    }
+
+    .gallery-code{
+      font-size:12px;
+      font-weight:800;
+      color:#2563eb;
+      background:#eff6ff;
+      border:1px solid #dbeafe;
+      padding:4px 8px;
+      border-radius:999px;
+    }
+
+    .gallery-name{
+      font-size:15px;
+      font-weight:800;
+      color:#111827;
+    }
+
+    .gallery-brief{
+      font-size:13px;
+      color:#4b5563;
+      line-height:1.6;
+      margin:8px 0 10px;
+    }
+
+    .gallery-tags{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      margin-top:8px;
+    }
+
+    .gallery-tag{
+      font-size:12px;
+      color:#374151;
+      background:#f3f4f6;
+      border-radius:999px;
+      padding:5px 8px;
+    }
+
+    .gallery-quote{
+      margin-top:10px;
+      padding:10px 12px;
+      border-radius:12px;
+      background:#f8fbff;
+      color:#1d4ed8;
+      font-size:13px;
+      font-weight:700;
+      line-height:1.6;
+    }
+
+    .gallery-card{
+      cursor:pointer;
+    }
+    .gallery-card:active{
+      transform:scale(.99);
+    }
+
+    .modal-mask{
+      position:fixed;
+      inset:0;
+      background:rgba(15,23,42,.5);
+      display:none;
+      align-items:flex-end;
+      justify-content:center;
+      z-index:9999;
+    }
+
+    .modal-mask.show{
+      display:flex;
+    }
+
+    .modal-panel{
+      width:min(920px,100%);
+      max-height:88vh;
+      overflow:auto;
+      background:#f8fafc;
+      border-radius:24px 24px 0 0;
+      padding:18px 16px 28px;
+      box-shadow:0 -10px 40px rgba(0,0,0,.18);
+    }
+
+    .modal-head{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      margin-bottom:10px;
+    }
+
+    .modal-title{
+      font-size:18px;
+      font-weight:900;
+      color:#111827;
+    }
+
+    .icon-btn{
+      border:none;
+      background:#eef2f7;
+      color:#111827;
+      width:36px;
+      height:36px;
+      border-radius:999px;
+      font-size:18px;
+      cursor:pointer;
+      min-height:auto;
+      padding:0;
+    }
+
+    .detail-topbar{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      margin:8px 0 10px;
+    }
+    .detail-back{
+      border:1px solid var(--line);
+      background:#fff;
+      color:#344054;
+      border-radius:14px;
+      padding:10px 12px;
+      font-size:13px;
+      font-weight:800;
+      min-height:auto;
+      cursor:pointer;
+    }
+    .detail-hero{
+      border-radius:18px;
+      padding:16px;
+      color:#fff;
+      box-shadow:0 14px 28px rgba(15,23,42,.10);
+      position:relative;
+      overflow:hidden;
+    }
+    .detail-hero:before{
+      content:"";
+      position:absolute;
+      right:-26px;
+      top:-26px;
+      width:120px;
+      height:120px;
+      border-radius:50%;
+      background:rgba(255,255,255,.14);
+    }
+    .detail-hero .row{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      flex-wrap:wrap;
+      position:relative;
+      z-index:1;
+    }
+    .detail-hero .name{
+      font-size:22px;
+      font-weight:900;
+      letter-spacing:-.3px;
+    }
+    .detail-hero .code{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:6px 10px;
+      border-radius:999px;
+      background:rgba(255,255,255,.16);
+      border:1px solid rgba(255,255,255,.18);
+      font-size:12px;
+      font-weight:900;
+    }
+    .detail-hero .brief{
+      margin-top:10px;
+      font-size:13px;
+      line-height:1.85;
+      color:rgba(255,255,255,.92);
+      position:relative;
+      z-index:1;
+    }
+    .detail-section{
+      margin-top:12px;
+      background:#fff;
+      border:1px solid #e7ecf3;
+      border-radius:18px;
+      padding:14px;
+      box-shadow:0 8px 24px rgba(15,23,42,.05);
+    }
+    .detail-section .h{
+      margin:0 0 8px;
+      font-size:15px;
+      font-weight:900;
+      color:#111827;
+    }
+    .detail-section .t{
+      font-size:13px;
+      color:#334155;
+      line-height:1.85;
+    }
+    .detail-section ul{
+      margin:0;
+      padding-left:18px;
+      color:#334155;
+      line-height:1.85;
+      font-size:13px;
+    }
+
+    @media (max-width: 768px){
+      .explain-grid,
+      .gallery-grid{
+        grid-template-columns:1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+<div class="app">
+  <!-- 首页 -->
+  <section id="introScreen" class="screen active">
+    <div class="hero">
+      <div class="badge">🏓 24题五级量表</div>
+      <h1>乒乓球人格测试</h1>
+      <p>
+        用更接近 MBTI 的五级量表方式，识别你的球风人格、比赛决策、节奏偏好和临场气质。
+        支持答题自动保存、头像昵称、雷达图结果与微信长图海报。
+      </p>
+      <div class="stats">
+        <div class="glass"><div class="k">题目数</div><div class="v">24</div></div>
+        <div class="glass"><div class="k">人格数</div><div class="v">16</div></div>
+        <div class="glass"><div class="k">耗时</div><div class="v">4~6分钟</div></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2 class="title">填写你的个人测试卡</h2>
+      <div class="sub">
+        可填写昵称并上传头像，后续会自动出现在结果页和分享海报中。
+      </div>
+
+      <div class="grid-2">
+        <div class="field">
+          <div class="label">昵称</div>
+          <input id="nicknameInput" class="input" maxlength="20" placeholder="请输入你的昵称（如：旋转暴龙）" />
+        </div>
+        <div class="field">
+          <div class="label">头像</div>
+          <div class="avatar-box">
+            <div id="avatarPreview" class="avatar-preview">?</div>
+            <div class="avatar-actions">
+              <label class="file-btn">
+                上传头像
+                <input id="avatarInput" class="file-input" type="file" accept="image/*" />
+              </label>
+              <button class="mini-btn" onclick="clearAvatar()">清除头像</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="intro-list">
+        <div class="intro-item">
+          <div class="intro-top">
+            <div class="icon">A/C</div>
+            <h3>主动进攻 vs 稳健控制</h3>
+          </div>
+          <p>你更倾向于主动建立压迫，还是通过控失误、控节奏、控落点逐步形成优势。</p>
+        </div>
+        <div class="intro-item">
+          <div class="intro-top">
+            <div class="icon">S/R</div>
+            <h3>近台速度 vs 旋转相持</h3>
+          </div>
+          <p>你更偏向快节奏、借力提速，还是更擅长通过旋转、弧线和组织能力来磨穿对手。</p>
+        </div>
+        <div class="intro-item">
+          <div class="intro-top">
+            <div class="icon">M/P</div>
+            <h3>临场感觉 vs 体系规划</h3>
+          </div>
+          <p>你是依据即时手感快速调整，还是更依赖预案、模块训练和战术框架。</p>
+        </div>
+        <div class="intro-item">
+          <div class="intro-top">
+            <div class="icon">F/L</div>
+            <h3>激情爆发 vs 冷静执行</h3>
+          </div>
+          <p>关键时刻你更可能靠情绪被点燃，还是凭借理性、稳定和执行力接管局面。</p>
+        </div>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn-primary" onclick="startTest()">开始测试</button>
+        <button class="btn-secondary" onclick="recoverIfPossible()">恢复上次进度</button>
+      </div>
+
+      <div class="btn-row" style="margin-top:10px;">
+        <button class="btn-ghost" onclick="openTypeGallery()">先逛逛：16型人格图鉴</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 测试页 -->
+  <section id="questionScreen" class="screen">
+    <div class="topbar">
+      <button class="mini-btn" onclick="goHome()">返回首页</button>
+      <button class="mini-btn" onclick="resetAnswersConfirm()">清空进度</button>
+    </div>
+
+    <div class="progress-box">
+      <div class="progress-meta">
+        <span id="progressText">第 1 / 24 题</span>
+        <span id="progressNum">0%</span>
+      </div>
+      <div class="progress">
+        <div id="progressFill" class="progress-fill"></div>
+      </div>
+      <div class="dimension-row">
+        <div class="chip">A/C：主动进攻 ↔ 稳健控制</div>
+        <div class="chip">S/R：近台速度 ↔ 旋转相持</div>
+        <div class="chip">M/P：临场感觉 ↔ 体系规划</div>
+        <div class="chip">F/L：激情爆发 ↔ 冷静执行</div>
+      </div>
+    </div>
+
+    <div class="question-card">
+      <div id="questionBadge" class="q-badge">比赛主轴 · A/C</div>
+      <h2 id="questionTitle" class="q-title"></h2>
+      <div id="questionDesc" class="q-desc"></div>
+
+      <div class="scale-wrap">
+        <div class="scale-hint">
+          <span id="leftHint">更偏向左侧描述</span>
+          <span id="rightHint">更偏向右侧描述</span>
+        </div>
+        <div id="scaleGrid" class="scale-grid"></div>
+      </div>
+    </div>
+
+    <div class="bottom-actions">
+      <div class="bottom-bar">
+        <button id="prevBtn" class="btn-ghost" onclick="prevQuestion()">上一题</button>
+        <button id="nextBtn" class="btn-primary" onclick="nextQuestion()">下一题</button>
+        <button id="submitBtn" class="btn-secondary" onclick="submitTest()">查看结果</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 结果页 -->
+  <section id="resultScreen" class="screen">
+    <div id="resultHero" class="result-hero">
+      <div class="result-head">
+        <div id="resultAvatar" class="result-avatar">?</div>
+        <div class="result-user">
+          <div id="resultName" class="name">未设置昵称</div>
+          <div id="resultCode" class="code">类型代码 · ASMF</div>
+        </div>
+      </div>
+      <h2 id="resultTitle">雷霆快攻手</h2>
+      <p id="resultDesc"></p>
+      <div id="resultTags" class="tags"></div>
+    </div>
+
+    <div class="grid">
+      <div class="section-card">
+        <h3>核心定位</h3>
+        <div id="resultCore" class="sub" style="font-size:16px;color:#111827;font-weight:800;"></div>
+        <div class="sub" style="margin-top:8px;">
+          你的人格类型代表你在比赛中建立优势、组织回合、应对波动与执行战术的整体方式。
+        </div>
+      </div>
+
+      <div class="section-card">
+        <h3>雷达图画像</h3>
+        <div class="radar-box">
+          <div class="radar-canvas-wrap">
+            <canvas id="resultRadarCanvas" width="640" height="640"></canvas>
+          </div>
+          <div class="sub" style="font-size:14px;line-height:1.9;">
+            雷达图从四个主维度抽象出你的球风重心：<br/>
+            <strong>主动压制、速度爆发、战术规划、竞技气场</strong>。<br/><br/>
+            数值不是绝对能力评分，而是你在本次测试中的风格倾向强弱。
+          </div>
+        </div>
+      </div>
+
+      <div class="section-card">
+        <h3>维度分析</h3>
+        <div id="scoreGrid" class="metrics"></div>
+      </div>
+
+      <div class="section-card">
+        <h3>打法画像</h3>
+        <ul id="profileList"></ul>
+      </div>
+
+      <div class="section-card">
+        <h3>训练建议</h3>
+        <ul id="trainingList"></ul>
+      </div>
+
+      <div class="section-card">
+        <h3>器材与战术建议</h3>
+        <ul id="adviceList"></ul>
+      </div>
+
+      <div class="section-card">
+        <h3>适合双打搭档类型</h3>
+        <ul id="partnerList"></ul>
+      </div>
+
+      <div class="section-card">
+        <h3>容易克制你的类型 / 你更擅长对付的类型</h3>
+        <ul id="counterList"></ul>
+      </div>
+
+      <div class="section-card">
+        <h3>推荐训练模块</h3>
+        <ul id="moduleList"></ul>
+      </div>
+
+      <div class="section-card explain-card">
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;">
+          <h3 style="margin:0;">人格深度解释</h3>
+          <div class="gallery-trigger">
+            <button class="btn-ghost" onclick="openTypeGallery()">查看16型人格图鉴</button>
+          </div>
+        </div>
+
+        <div id="explainSummary" class="sub" style="margin-top:10px;font-size:15px;color:#111827;"></div>
+
+        <div class="explain-grid" style="margin-top:14px;">
+          <div class="explain-block">
+            <div class="label">核心优势</div>
+            <ul id="strengthList"></ul>
+          </div>
+
+          <div class="explain-block">
+            <div class="label">潜在短板</div>
+            <ul id="weaknessList"></ul>
+          </div>
+
+          <div class="explain-block">
+            <div class="label">适合打法</div>
+            <div id="fitStyleText" class="text"></div>
+          </div>
+
+          <div class="explain-block">
+            <div class="label">比赛中常见表现</div>
+            <div id="matchBehaviorText" class="text"></div>
+          </div>
+
+          <div class="explain-block">
+            <div class="label">成长建议</div>
+            <div id="growthText" class="text"></div>
+          </div>
+
+          <div class="explain-block">
+            <div class="label">双打角色</div>
+            <div id="doublesRoleText" class="text"></div>
+          </div>
+
+          <div class="explain-block full">
+            <div class="label">适合关注的训练方向</div>
+            <div id="extraTrainText" class="text"></div>
+          </div>
+        </div>
+
+        <div class="quote-box">
+          <div class="label">人格金句</div>
+          <div id="quoteText" class="quote"></div>
+        </div>
+
+  <div class="explain-block full" style="margin-top:14px;">
+    <div class="label">你最像的三类人格</div>
+    <div id="similarTypeList" class="text"></div>
+  </div>
+      </div>
+    </div>
+
+    <div class="result-actions">
+      <button class="btn-ghost" onclick="restartTest()">重新测试</button>
+      <button class="btn-secondary" onclick="shareResult()">复制结果</button>
+      <button class="btn-primary" onclick="openPoster()">生成微信长图海报</button>
+      <button class="btn-ghost" onclick="backToQuestions()">返回改题</button>
+    </div>
+
+    <div class="note">
+      说明：本测试是面向乒乓球球风偏好、决策方式与比赛心理风格的趣味型人格分析工具，
+      用于社交传播、训练启发与自我认知，不等同于正式竞技能力评估。
+    </div>
+  </section>
+</div>
+
+<!-- 海报弹层 -->
+<div id="posterModal" class="poster-modal">
+  <div class="poster-panel">
+    <div class="poster-head">
+      <strong style="font-size:18px;">微信长图海报预览</strong>
+      <button class="mini-btn" onclick="closePoster()">关闭</button>
+    </div>
+    <div class="poster-preview">
+      <canvas id="posterCanvas" width="1242" height="3200"></canvas>
+    </div>
+    <div class="btn-row">
+      <button class="btn-primary" onclick="downloadPoster()">下载长图</button>
+      <button class="btn-secondary" onclick="copyShareText()">复制分享文案</button>
+    </div>
+  </div>
+</div>
+
+<!-- 16 型人格图鉴弹层 -->
+<div id="typeGalleryModal" class="modal-mask" onclick="closeTypeGallery(event)">
+  <div class="modal-panel" onclick="event.stopPropagation()">
+    <div class="modal-head">
+      <div>
+        <div class="modal-title">16型乒乓球人格图鉴</div>
+        <div class="sub">可查看全部人格的简介、打法倾向与人格金句</div>
+      </div>
+      <button class="icon-btn" onclick="closeTypeGallery()">×</button>
+    </div>
+
+    <div id="galleryListView">
+      <div id="galleryGrid" class="gallery-grid"></div>
+    </div>
+
+    <div id="galleryDetailView" style="display:none;">
+      <div class="detail-topbar">
+        <button class="detail-back" onclick="backToGalleryList()">← 返回图鉴</button>
+        <button class="mini-btn" onclick="scrollGalleryTop()">回到顶部</button>
+      </div>
+      <div id="detailHero" class="detail-hero"></div>
+      <div class="detail-section">
+        <div class="h">一句话总结</div>
+        <div id="detailSummary" class="t"></div>
+      </div>
+      <div class="detail-section">
+        <div class="h">核心优势</div>
+        <ul id="detailStrengths"></ul>
+      </div>
+      <div class="detail-section">
+        <div class="h">潜在短板</div>
+        <ul id="detailWeaknesses"></ul>
+      </div>
+      <div class="detail-section">
+        <div class="h">适合打法</div>
+        <div id="detailFitStyle" class="t"></div>
+      </div>
+      <div class="detail-section">
+        <div class="h">比赛中常见表现</div>
+        <div id="detailBehavior" class="t"></div>
+      </div>
+      <div class="detail-section">
+        <div class="h">成长建议</div>
+        <div id="detailGrowth" class="t"></div>
+      </div>
+      <div class="detail-section">
+        <div class="h">双打角色</div>
+        <div id="detailDoubles" class="t"></div>
+      </div>
+      <div class="detail-section">
+        <div class="h">建议关注的训练方向</div>
+        <div id="detailExtraTrain" class="t"></div>
+      </div>
+      <div class="detail-section">
+        <div class="h">人格金句</div>
+        <div id="detailQuote" class="t" style="font-weight:900;color:#1d4ed8;"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+/* =========================
+   数据区
+========================= */
+const STORAGE_KEY = "pingpong_personality_test_v2";
+
+const questions = [
+  // A/C × 6
+  {dimension:"A/C", tag:"比赛主轴", text:"在正式比赛中，我通常更愿意主动抢先上手，而不是先求稳再观察。", leftLabel:"非常不同意", rightLabel:"非常同意", polarity:"A"},
+  {dimension:"A/C", tag:"回合策略", text:"即便面对实力接近的对手，我也更喜欢先制造压力，而不是等待对手先出现漏洞。", leftLabel:"非常不同意", rightLabel:"非常同意", polarity:"A"},
+  {dimension:"A/C", tag:"发接发", text:"前三板里，我更倾向于通过抢攻直接争取优势。", leftLabel:"非常不同意", rightLabel:"非常同意", polarity:"A"},
+  {dimension:"A/C", tag:"回合心态", text:"相比持续稳定相持，我更喜欢主动提速、主动打穿。", leftLabel:"非常不同意", rightLabel:"非常同意", polarity:"A"},
+  {dimension:"A/C", tag:"风格偏好", text:"只要机会合适，我愿意承担一定失误风险去换主动权。", leftLabel:"非常不同意", rightLabel:"非常同意", polarity:"A"},
+  {dimension:"A/C", tag:"得分意识", text:"我更在意自己是否能先把比赛带进主动进攻模式。", leftLabel:"非常不同意", rightLabel:"非常同意", polarity:"A"},
+
+  // S/R × 6
+  {dimension:"S/R", tag:"技术偏好", text:"我的球更偏向速度、借力和节奏压制，而不是靠旋转和弧线慢慢建立优势。", leftLabel:"非常不同意", rightLabel:"非常同意", polarity:"S"},
+  {dimension:"S/R", tag:"近台风格", text:"我更喜欢近台快速衔接，而不是把回合拉长到中远台。", leftLabel:"非常不同意", rightLabel:"非常同意", polarity:"S"},
+  {dimension:"S/R", tag:"得分方式", text:"相比旋转质量，我更依赖出手速度和衔接速度来制造压迫。", leftLabel:"非常不同意", rightLabel:"非常同意", polarity:"S"},
+  {dimension:"S/R", tag:"比赛节奏", text:"我更习惯打快一点，而不是把节奏拖慢后慢慢组织。", leftLabel:"非常不同意", rightLabel:"非常同意", polarity:"S"},
+  {dimension:"S/R", tag:"相持理解", text:"我对“快、顶、借力、提速”这一类打法更有天然偏好。", leftLabel:"非常不同意", rightLabel:"非常同意", polarity:"S"},
+  {dimension:"S/R", tag:"球路印象", text:"别人更容易把我归类为节奏型、速度型选手。", leftLabel:"非常不同意", rightLabel:"非常同意", polarity:"S"},
+
+  // M/P × 6
+  {dimension:"M/P", tag:"决策方式", text:"很多时候，我是先上台找到感觉，再边打边调整。", leftLabel:"非常不同意", rightLabel:"非常同意", polarity:"M"},
+  {dimension:"M/P", tag:"训练习惯", text:"相比固定训练模块，我更相信实战里找感觉。", leftLabel:"非常不同意", rightLabel:"非常同意", polarity:"M"},
+  {dimension:"M/P", tag:"对局适应", text:"打不同类型的对手时，我更依赖临场灵感而不是预设套路。", leftLabel:"非常不同意", rightLabel:"非常同意", polarity:"M"},
+  {dimension:"M/P", tag:"战术结构", text:"我很少在比赛前把回合框架想得特别细。", leftLabel:"非常不同意", rightLabel:"非常同意", polarity:"M"},
+  {dimension:"M/P", tag:"处理方式", text:"如果手感在线，我的发挥会明显优于“按流程执行”的状态。", leftLabel:"非常不同意", rightLabel:"非常同意", polarity:"M"},
+  {dimension:"M/P", tag:"实战倾向", text:"我更像是靠即时反应和球感变化处理比赛。", leftLabel:"非常不同意", rightLabel:"非常同意", polarity:"M"},
+
+  // F/L × 6
+  {dimension:"F/L", tag:"比赛气质", text:"关键分时，情绪和斗志往往会明显推动我的发挥。", leftLabel:"非常不同意", rightLabel:"非常同意", polarity:"F"},
+  {dimension:"F/L", tag:"逆风状态", text:"比分落后反而可能激发我更强的攻击欲和存在感。", leftLabel:"非常不同意", rightLabel:"非常同意", polarity:"F"},
+  {dimension:"F/L", tag:"对抗感受", text:"我会享受比赛中的火药味、对抗感和气势拉扯。", leftLabel:"非常不同意", rightLabel:"非常同意", polarity:"F"},
+  {dimension:"F/L", tag:"表现方式", text:"我打球常带有明显情绪表达，状态好的时候很有感染力。", leftLabel:"非常不同意", rightLabel:"非常同意", polarity:"F"},
+  {dimension:"F/L", tag:"关键时段", text:"越到关键分，我越可能通过强烈的心理能量去顶住甚至压过对手。", leftLabel:"非常不同意", rightLabel:"非常同意", polarity:"F"},
+  {dimension:"F/L", tag:"比赛印象", text:"别人通常会觉得我比赛气场比较强、比较“燃”。", leftLabel:"非常不同意", rightLabel:"非常同意", polarity:"F"},
+];
+
+const resultsMap = {
+  ASMF: {
+    title:"雷霆快攻手",
+    desc:"你是典型的主动压制型球手，喜欢抢节奏、快速上手，并依靠气势与果断建立优势。你的比赛观赏性强，压迫感十足，擅长在开局就把对手拖进你的节奏体系。",
+    profile:["偏爱先发制人，不愿长期被动相持","适合近台快攻、快撕、抢冲和节奏压制","状态好时杀伤力极强，容易形成连续得分高潮","对比赛氛围敏感，越有对抗感越容易兴奋"],
+    training:["加强前三板质量与连续衔接能力","提高快节奏下的落点稳定性，减少无谓失误","训练逆风球时的节奏管理，避免只靠情绪带动","加强接发球抢攻成功率，让主动权更早出现"],
+    advice:["器材可偏速度与弹性，但要兼顾容错率","适合以发球抢攻、接发球上手建立优势","对稳健型选手时不要一味硬冲，要增加变线和停顿","关键分先保证起板质量，再追求一板打穿"],
+    partner:["适合与稳健控制型、落点清晰型搭档配对","双打中若搭档擅长过渡和落点限制，你会更容易完成前台终结","与冷静执行型搭档合作时，能形成‘一稳一爆’的互补"],
+    counter:["容易被：深稳弧控手、理性控局者，用耐心和节奏切割你","你更擅长：节奏不稳、起伏较大的激情型选手","应对建议：打不穿时先降半拍，重新组织前三板"],
+    modules:["前三板抢攻衔接模块","快撕快带稳定性模块","逆风球情绪管理模块","接发球直接上手机会判断模块"]
+  },
+  ASML: {
+    title:"冷锋快压者",
+    desc:"你同样具有强烈的主动进攻倾向，但比起纯气势型球手，你更冷静、更干脆。你擅长用速度和判断在短时间内完成压制，是典型的高执行力快节奏选手。",
+    profile:["进攻意图明确，擅长简洁高效地拿分","近台速度快，节奏转换干净利落","比赛中不容易被情绪带乱，执行力很强","属于越打越稳、越到关键分越危险的类型"],
+    training:["提高发接发后的第一板速度质量","强化反手快撕、快带和借力能力","训练关键分下的线路变化，提高出手隐蔽性","增加相持中的突然提速能力，避免节奏单一"],
+    advice:["器材适合速度型底板配中高容错胶皮","战术上可通过压反手、偷长、快变线制造主动","适合打节奏差，让对手来不及组织","面对旋转型选手时注意第一板处理质量"],
+    partner:["适合与旋转组织型、控场型搭档配对","搭档若能先把球‘喂舒服’，你会更容易完成致命一击","和高稳定相持型队友组合时双打结构最完整"],
+    counter:["容易被：旋转指挥官、深谋弧圈家，用结构和旋转拖慢你","你更擅长：出手果断但细节粗糙的快攻型对手","应对建议：别只快，还要记得‘先压点，再提速’"],
+    modules:["反手借力提速模块","前三板落点压制模块","关键分线路执行模块","旋转球第一板启动模块"]
+  },
+  ASPF: {
+    title:"燃点突击手",
+    desc:"你是典型的快节奏攻击者，同时具备明确战术意识。你会主动设计局面，再通过情绪与出手强度把对手压垮。你既有冲劲，也有进攻组织能力。",
+    profile:["擅长用发球和落点设计创造抢攻机会","比赛中气势强，容易通过连续进攻带起状态","不仅能快，还知道什么时候该快","适合打节奏压迫型比赛"],
+    training:["完善发球—抢攻—连续压制的固定套路","训练抢攻后的第二、第三板衔接","在兴奋状态下保持动作稳定，避免过度发力","加强接发球主动性，不只依赖发球开局"],
+    advice:["器材可偏进攻，但注意手感统一性","战术上适合围绕一两套核心套路反复打透","对控制型选手时可加强正反手转换速度","领先时别急于终结，保持压迫比强杀更有效"],
+    partner:["适合与节奏稳定、落点意识强的搭档配合","双打中你适合前台扩大战果，搭档负责争取上手机会","与冷静线路型搭档组合时，压迫感会非常强"],
+    counter:["容易被：理性控局者、前台布控者，限制你进入熟悉套路","你更擅长：缺少预案、只能被你带节奏的对手","应对建议：当套路被识破时，主动准备第二套开局方案"],
+    modules:["发球—第三板战术模块","抢攻后连续压制模块","兴奋状态动作稳定模块","双套路开局切换模块"]
+  },
+  ASPL: {
+    title:"战术快攻官",
+    desc:"你是进攻型中的体系派，讲究效率和结构。你的球不一定最炸裂，但常常最合理。你擅长通过明确的快攻战术规划，在短时间内不断建立主动权。",
+    profile:["主动进攻欲望强，但不盲目蛮冲","近台快攻与战术落点结合得较好","头脑清楚，擅长打预判和套路执行","比赛中节奏掌控感强，不容易乱"],
+    training:["继续细化前三板战术模板","增加不同发球后的接续方案，提升变化层次","训练快攻中的节奏停顿，让出手更具欺骗性","强化反手位过渡能力，提升整体串联"],
+    advice:["器材宜速度与控制平衡，不必一味极端暴力","战术上适合先锁定弱点，再持续压迫同一区域","面对防守型或旋转型对手，要把落点变化放在第一位","关键分优先执行你最熟的战术模板"],
+    partner:["适合与稳定过渡型、旋转牵制型搭档合作","搭档越能帮你把球路组织清楚，你的战术价值越高","双打中你适合当节奏指挥者"],
+    counter:["容易被：热策弧防师、旋转指挥官，在体系上与你拉长博弈","你更擅长：思路混乱、节奏容易被切断的对手","应对建议：战术受阻时，优先改发接发结构，不要只改出手"],
+    modules:["前三板模板细化模块","相持中停顿提速模块","反手过渡与衔接模块","发接发结构重建模块"]
+  },
+
+  ARMF: {
+    title:"热浪冲旋手",
+    desc:"你是充满攻击欲望的旋转型选手。你喜欢主动拉起高质量弧圈，用旋转和气势一起施压。你的比赛往往节奏有层次，一旦进入手感区，会形成很强的上旋统治力。",
+    profile:["主动上手意愿强，善于用旋转建立优势","喜欢通过第一板高质量弧圈开启进攻","比赛状态受气势影响较大，顺风时杀伤力惊人","适合拉冲结合、持续施压型打法"],
+    training:["提高发球后正手第一板拉冲成功率","训练连续弧圈中的落点与节奏变化","加强中台连续能力，避免一板后断线","提升逆风局下的动作稳定性"],
+    advice:["器材可偏持球和旋转性能","战术上适合先转起来，再通过力量和变线打穿","对快攻型选手要重视接发球限制其速度启动","不要每板都发满，旋转层次比纯暴力更重要"],
+    partner:["适合与近台控场型、节奏过渡型搭档组合","搭档负责压短与限速，你负责拉开上旋攻势","双打中你的旋转质量能制造很多高价值回球"],
+    counter:["容易被：稳控节拍器、冷锋快压者，抢你启动前窗口","你更擅长：不善处理中上旋压力的平击型对手","应对建议：别贪一板拉死，先建立旋转质量更关键"],
+    modules:["发球后第一板拉冲模块","连续弧圈落点变化模块","中台连续补位模块","逆风局动作稳定模块"]
+  },
+  ARML: {
+    title:"冷面弧爆手",
+    desc:"你偏爱通过高质量旋转主动得分，但你的优势不只在技术，还有冷静和执行。你不是最张扬的进攻者，却常常能用稳定而有压迫性的弧圈把比赛拖进你的节奏。",
+    profile:["主动进攻但讲究成功率和结构","喜欢高质量弧圈压迫，而不是纯粹拼速度","关键分处理成熟，不轻易失去章法","适合拉冲主导、控制中带进攻的打法"],
+    training:["强化第一板弧圈质量与第二板衔接","提升反手位转正手以及中台补位效率","加入连续变线训练，让弧圈更具杀伤力","训练接发球后的稳定上手模式"],
+    advice:["器材宜偏旋转、弧线和持球感","战术适合通过旋转压制后再抓机会提速","面对借力快的对手时，要注意弧线和落点深度","领先时继续按结构打，不必强行追求华丽得分"],
+    partner:["适合与前台快点型、衔接细腻型搭档配合","若搭档能更早争取主动，你能在第二阶段扩大优势","双打中适合作为中后段质量输出点"],
+    counter:["容易被：战术快攻官、冷锋快压者，在时间上压缩你","你更擅长：急于对轰、缺少耐心的对手","应对建议：先用旋转把对手顶住，再考虑提速终结"],
+    modules:["高质量弧圈+第二板模块","中台转位补位模块","连续变线弧圈模块","接发球稳定上手模块"]
+  },
+  ARPF: {
+    title:"旋压指挥官",
+    desc:"你是会‘设计进攻’的旋转型压制选手。你知道如何通过发接发、旋转变化和进攻时机安排，把比赛一步步导向自己熟悉的模式，再用气势完成收割。",
+    profile:["发接发和旋转组织能力突出","善于先布局，再主动拉开攻势","球路层次丰富，不是只靠一板硬解","打顺时会让对手感觉被一步步套住"],
+    training:["细化发球与第三板、第五板战术组合","训练旋转变化中的突然加速能力","强化反手侧的控转和过渡质量","提高领先和胶着局面的节奏把控"],
+    advice:["器材适合旋转与稳定兼顾型配置","战术上以发球抢先、拉住节奏、再寻找突破为主","面对防守反击型选手时要保持耐心，不要急于一板终结","适当保留情绪爆发，但别让它破坏结构"],
+    partner:["适合与稳定落点型、近台快攻型搭档组合","搭档越能执行你设计的节奏，你们越容易形成双打统治","你适合担任双打中的战术发起者"],
+    counter:["容易被：理性控局者、深谋弧圈家，在结构上跟你对耗","你更擅长：只有单一强项、但耐心不足的对手","应对建议：当优势打不开时，先用发接发重新洗牌"],
+    modules:["发球—第三/五板模块","旋转变化中突然提速模块","反手控转过渡模块","胶着局节奏主导模块"]
+  },
+  ARPL: {
+    title:"旋转指挥官",
+    desc:"你是典型的进攻体系型旋转选手，擅长通过有计划的旋转压制与线路调度掌控比赛。你未必最凶，但通常是最有条理、最难对付的进攻组织者之一。",
+    profile:["进攻明确，讲究旋转质量和战术衔接","善于构建整场比赛的节奏框架","习惯在回合开始前就想好下一步","属于成熟度高、稳定性强的进攻型选手"],
+    training:["提升前三板套路的变化数量与熟练度","加强相持中由转入冲的转换效率","训练落点控制，特别是大角度与追身结合","增加关键分演练，形成固定处理习惯"],
+    advice:["器材宜偏旋转控制型，不必过分求快","战术上可通过旋转深度和线路变化逐步压缩对方空间","对近台快攻型要优先限制其借力点","你的优势在系统性，尽量别被带进乱战"],
+    partner:["适合与前台执行型、快节奏收尾型搭档搭配","搭档负责完成前台终结，你负责搭建优势结构","双打中适合作为节奏与落点策划者"],
+    counter:["容易被：冷锋快压者、战术快攻官，用时间差压缩你","你更擅长：思路散、不会应对旋转变化的对手","应对建议：避免进入无意义对轰，坚持结构化推进"],
+    modules:["前三板变化库模块","转冲转换效率模块","大角度+追身落点模块","关键分固定模板模块"]
+  },
+
+  CSMF: {
+    title:"热血节奏控",
+    desc:"你并不急于蛮攻，而是更擅长在快节奏里稳住球、控住球，再借气势一点点把局面推向有利方向。你是那种看起来不乱，但越打越有压迫感的选手。",
+    profile:["重视稳定和控球，但不缺比赛激情","擅长近台节奏控制和速度牵制","容易通过气势增强专注度和执行感","适合快节奏控制反击型打法"],
+    training:["强化近台小技术和节奏切换能力","练习控中有攻，提高突然发力质量","在高情绪状态下保持手上细腻度","加强接发球落点限制，先把回合导入熟悉模式"],
+    advice:["器材适合控制和速度兼顾型","战术可先稳住节奏，再利用速度变化反压对手","面对强攻型选手要优先破坏其第一板质量","别让气势只停留在表面，要落实到线路执行上"],
+    partner:["适合与高终结能力型搭档合作","你负责把节奏‘管住’，搭档负责把机会打死","和旋转组织型搭档也能形成很好互补"],
+    counter:["容易被：雷霆快攻手、燃点突击手，若被早早冲穿会被动","你更擅长：节奏单一、只会硬打的选手","应对建议：前两板先保秩序，再寻找反压时机"],
+    modules:["近台小球节奏模块","控中带攻提速模块","高情绪细腻手感模块","接发球导入局面模块"]
+  },
+  CSML: {
+    title:"稳控节拍器",
+    desc:"你是典型的稳定型近台控制选手。你不追求每球都炸裂，但非常擅长通过节奏、落点和线路把比赛打成自己能掌控的样子。你往往是对手口中‘很难打透’的那类人。",
+    profile:["强调稳定、控制与失误管理","擅长近台快节奏中的借力与变线","打球思路冷静，不容易被对手带偏节奏","越是胶着局越能体现你的价值"],
+    training:["提高接发球控制质量和落点精度","训练由控制过渡到主动得分的一板","加强反手连续稳定性，形成节奏核心","练习关键分中固定套路的高质量执行"],
+    advice:["器材适合高控制、清晰反馈型配置","战术上通过压弱点、控长短、变节奏逐步消耗对手","面对旋转型选手要保持上手质量，不可只控不攻","适当提升终结能力，会让你的优势更完整"],
+    partner:["适合与爆发收尾型、抢攻型搭档组合","你负责降低失误和压住回合，搭档负责收官","双打中你很适合当‘稳定器’"],
+    counter:["容易被：旋压指挥官、热浪冲旋手，若被高质量旋转压住会吃亏","你更擅长：失误偏多、处理球粗糙的对手","应对建议：适当增加主动提速，别让自己变成纯被动控制"],
+    modules:["接发球精控模块","控制转主动模块","反手节奏稳定模块","关键分固定套路模块"]
+  },
+  CSPF: {
+    title:"前台布控者",
+    desc:"你是近台控制体系型选手，善于通过预判、线路和节奏安排，让对手进入你设计好的球路。你重视稳定，但不是消极防守，而是用控制来制造主动。",
+    profile:["擅长近台布控和结构化组织","比赛中对落点、长短和速度分配很敏感","会提前设计回合发展方向","属于稳定中带有明显战术感的选手"],
+    training:["继续优化发接发小球质量","训练控球后突然提速的节奏点","加强正反手转换中的连贯性","提升对不同类型对手的针对性预案"],
+    advice:["器材适合控制和借力反馈好的组合","战术上可通过压反手、追身、长短结合不断挤压空间","面对搏杀型对手要尽量让其打不到舒服点","避免过度保守，合适时机必须主动拿分"],
+    partner:["适合与近台终结型、速度冲击型搭档配合","你负责布控和制造机会，搭档负责高质量完成","双打中你是典型的‘机会制造者’"],
+    counter:["容易被：燃点突击手、雷霆快攻手，若对手直接打穿会来不及布控","你更擅长：不会拆线路、容易跟着你走的对手","应对建议：遇到暴冲型选手时先切碎对方启动节奏"],
+    modules:["发接发小球布控模块","控后突然提速模块","正反手切换连贯模块","针对性赛前预案模块"]
+  },
+  CSPL: {
+    title:"理性控局者",
+    desc:"你是控制型选手里的大脑派。你冷静、清晰、耐心，善于用近台节奏、线路和预判控制比赛进程。你不一定最显眼，但往往最稳定、最难被打乱。",
+    profile:["高执行力、高稳定性的控制型球手","习惯把比赛拆解成可执行的小目标","擅长通过细节积累优势，而不是硬拼爆发","对节奏和局面变化判断较准"],
+    training:["加强控球后的得分手段建立","增加一板主动提速能力，避免过于平淡","训练针对不同球风的限制线路","通过实战复盘优化自己的战术模板"],
+    advice:["器材配置不宜过暴，手感清晰最重要","战术上适合长期压制同一弱点，逐步建立优势","面对情绪型选手时保持稳定最能拉开差距","关键分坚持你最熟悉的结构，不必突然冒险"],
+    partner:["适合与爆发进攻型、火力输出型搭档合作","你负责控制秩序，搭档负责提高上限","双打中非常适合作为后场节奏脑"],
+    counter:["容易被：旋压指挥官、冷面弧爆手，在旋转层次上被压制","你更擅长：情绪波动大、节奏易崩的选手","应对建议：别把比赛拖得太平，适时主动提速才能扩大优势"],
+    modules:["控制后得分模块","单板提速模块","限制线路模块","赛后复盘模板模块"]
+  },
+
+  CRMF: {
+    title:"热血防反家",
+    desc:"你偏向稳健控制和旋转组织，但并不保守。你擅长在相持中等机会、造机会，再借气势完成反击。你的威胁往往不是第一板，而是对手以为占优时你突然反扑。",
+    profile:["擅长控制旋转与中台相持","更愿意等待合适时机反制对手","状态起来后反击质量很高","具备韧性强、缠斗能力好的特点"],
+    training:["提升防守转反攻的衔接效率","训练中远台相持中的线路变化","加强接发球后的第一时间控转能力","在情绪高涨时也要维持动作稳定"],
+    advice:["器材可偏旋转和容错，利于相持组织","战术上先稳住，再利用对手着急时制造反击点","面对快攻型对手重点是让其第一板不好受","你的强项是耐心与反扑，不要被对手带着拼急"],
+    partner:["适合与前台抢冲型、主动上手型搭档合作","你负责托住与反拉，搭档负责前段施压","双打中你像‘守转攻转换器’"],
+    counter:["容易被：战术快攻官、冷锋快压者，若被前三板压住会难受","你更擅长：只会发力、但缺少持续组织的选手","应对建议：首先解决接发球质量，再谈相持反扑"],
+    modules:["防转攻衔接模块","中远台线路变化模块","接发球控转模块","高情绪动作稳定模块"]
+  },
+  CRML: {
+    title:"深稳弧控手",
+    desc:"你是稳健、冷静、旋转感强的控制型选手。你擅长通过旋转、弧线和相持稳定性让比赛变得复杂而难受，对手往往很难从你这里轻松拿到连续得分。",
+    profile:["偏好稳健组织和旋转控制","中远台相持能力较强，失误管理较好","球风耐心，喜欢逐步累积优势","不容易被对手情绪或比分波动影响"],
+    training:["提升相持中的突然变线和节奏变化","训练接发球后的第一板质量，避免过于被动","加强反手控制深度与落点精度","增加机会球终结能力，让优势更快转换成得分"],
+    advice:["器材适合旋转控制型，强调持球感和稳定回馈","战术上通过弧线、深度和落点不断提高对方失误概率","面对强行快冲的对手时要先限制其起板点","别只满足于稳住，必要时要敢于转入主动"],
+    partner:["适合与快节奏前台型、收尾能力强的搭档搭配","你负责把回合拖进舒服区，搭档负责缩短得分路径","组合里你很适合做‘稳定后盾’"],
+    counter:["容易被：雷霆快攻手、燃点突击手，快压到位时会很被动","你更擅长：缺少连续性与耐心的进攻者","应对建议：主动增加第一板质量，别让比赛总从被动开始"],
+    modules:["相持变线模块","接发球第一板质量模块","反手深度控制模块","机会球终结模块"]
+  },
+  CRPF: {
+    title:"热策弧防师",
+    desc:"你是有战术设计能力的控制旋转型选手，同时具备明显的比赛气势感。你擅长先用体系稳住，再在合适时机通过节奏变化和情绪推动打出一波优势球。",
+    profile:["有计划地控制比赛，并寻找反击窗口","善于用旋转和线路去打乱对手进攻组织","比赛里有韧性，拖入体系后威胁会越来越大","状态上来时会出现很强的连续压制段"],
+    training:["细化发接发后的控制反击套路","训练由稳转攻的最佳时机判断","强化关键分中的执行与落点稳定","提升中台连续防反质量"],
+    advice:["器材宜偏控制旋转并兼顾一定出球质量","战术上先架构局面，再抓对手漏洞集中施压","面对盲目搏杀的选手时，节奏管理比正面对冲更重要","气势可以成为武器，但要服务于战术目标"],
+    partner:["适合与高终结、冲击力强的搭档组合","你负责把局面变得可控，搭档负责收割窗口球","双打中适合做组合的大脑和节奏器"],
+    counter:["容易被：旋转指挥官、理性控局者，在体系和耐心上被牵制","你更擅长：开局猛但后程掉速的对手","应对建议：别急着反扑，先把对方打急才是关键"],
+    modules:["控制反击套路模块","稳转攻时机判断模块","关键分落点执行模块","中台连续防反模块"]
+  },
+  CRPL: {
+    title:"深谋弧圈家",
+    desc:"你更像一位布局型选手，善于通过旋转、线路和回合设计控制比赛。你未必最张扬，但常常是最难缠、最有体系的那一类球手。",
+    profile:["擅长建立战术框架，重视发接发设计","偏爱旋转控制和中远台相持组织","比赛思路清晰，能根据对手特点做针对性部署","心态相对稳定，关键分注重执行"],
+    training:["优化发球与第三板的套路连接","提升相持中的变线能力与突然提速","增加反手衔接和中台转正手效率","训练高质量落点控制，让优势更稳定地兑现"],
+    advice:["器材可偏旋转、持球和控制感","战术上适合先试探弱点，再逐步加压","面对快攻型选手要重视接发球限制其起板","适当提升一板终结能力，避免优势回合拖长"],
+    partner:["适合与前台速度终结型、执行力强的搭档合作","你负责建局和限制，搭档负责收口","双打中是很典型的策略中枢型球员"],
+    counter:["容易被：冷锋快压者、雷霆快攻手，在极限速度上被冲击","你更擅长：没耐心拆解你体系的对手","应对建议：不要只布控不兑现，机会出现要更果断"],
+    modules:["发球—第三板连接模块","相持变线+提速模块","反手衔接转正手模块","高质量落点兑现模块"]
+  }
+};
+
+const resultExplainMap = {
+  ASMF: {
+    summary: "典型的前压型爆发选手，习惯抢先建立主动，并把比赛拖入高压高强度节奏。",
+    strengths: ["启动快，压迫感强", "敢于抢节奏，容易先拿主动", "情绪感染力强，顺风局容易连续得分"],
+    weaknesses: ["上头时容易失误偏多", "遇到深稳型对手可能越打越急", "若前三板打不穿，后续节奏可能失控"],
+    fitStyle: "近台快攻、抢冲、节奏压迫型打法",
+    matchBehavior: "开局往往抢得很凶，打顺时像滚雪球；一旦对手顶住第一波，需要快速调整策略。",
+    growth: "学会在‘猛冲’与‘控一板’之间切换，增强持续压制能力，而不是只靠爆发。",
+    doublesRole: "适合做双打中的前台终结点、气势带动者。",
+    extraTrain: "前三板衔接、发抢后的二次上手、落点压制中的稳定性训练。",
+    quote: "先把速度提起来，让对手没有完整呼吸。"
+  },
+  ASML: {
+    summary: "冷静高效的快节奏进攻者，擅长用判断和执行在短时间内完成压制。",
+    strengths: ["出手果断，效率高", "快节奏执行力强", "关键分稳定，压迫感持续"],
+    weaknesses: ["若过于依赖固定快节奏，可能被拖慢后失去优势", "变化不足时容易被预判"],
+    fitStyle: "近台快压、反手提速、快速转换线路型打法",
+    matchBehavior: "比赛中不轻易情绪化，属于看起来平静但持续给压的类型。",
+    growth: "在保持快攻效率的同时，增加停顿、变线和节奏差。",
+    doublesRole: "适合做双打中的高执行终结者。",
+    extraTrain: "反手快撕、近台借力变线、快慢节奏切换训练。",
+    quote: "不是每一板都重，但每一板都有效。"
+  },
+  ASPF: {
+    summary: "有战术、有火力、有气势的主动突击型球手，擅长设计后再猛烈执行。",
+    strengths: ["会布局，不只是蛮冲", "发接发后主动得分能力强", "情绪带动能力强，容易一波流"],
+    weaknesses: ["节奏上头时可能过度发力", "若开局设计不顺，容易急于抢回优势"],
+    fitStyle: "抢攻体系、发球抢冲、节奏突击型打法",
+    matchBehavior: "喜欢先布局后冲击，一旦进到自己套路里，对手会很难受。",
+    growth: "建立更多备用方案，避免单一套路被识破后失去主动。",
+    doublesRole: "适合做双打中的攻击发起点。",
+    extraTrain: "发接发套路、半出台抢冲、强攻后衔接封堵训练。",
+    quote: "我不只是快，我是有准备地快。"
+  },
+  ASPL: {
+    summary: "讲究结构与效率的战术型快攻手，擅长用最合理的方式完成主动压制。",
+    strengths: ["战术清晰，出手合理", "快攻与线路控制结合较好", "不容易乱，比赛成熟度高"],
+    weaknesses: ["有时过于求稳，失去一击打穿的窗口", "若临场变化不足，可能显得保守"],
+    fitStyle: "体系快攻、线路压制、前台战术执行型打法",
+    matchBehavior: "像一个在场上调度攻势的人，不轻易浪费每一次上手机会。",
+    growth: "提升突发变化与高压下的临场即兴能力。",
+    doublesRole: "适合做双打中的节奏指挥者。",
+    extraTrain: "线路调度、快带快压、两点结合与战术演练。",
+    quote: "主动，不只是快，更是快得有条理。"
+  },
+
+  ARMF: {
+    summary: "凭借旋转质量与比赛激情推进进攻的弧圈压制型球手。",
+    strengths: ["第一板拉冲质量高", "旋转压迫感强", "状态上来后连续攻击威力大"],
+    weaknesses: ["情绪和手感波动会放大表现差异", "若对手限制启动点，容易陷入发力硬拉"],
+    fitStyle: "正手拉冲、连续弧圈、旋转压迫型打法",
+    matchBehavior: "喜欢把球转起来、顶起来，再逐步冲垮对手。",
+    growth: "提高逆风局下的旋转稳定性与再组织能力。",
+    doublesRole: "适合做双打中的中后段火力输出点。",
+    extraTrain: "上旋连续、拉冲稳定性、中台连续进攻和落点变化。",
+    quote: "先把球转起来，比赛自然会向我这边倾斜。"
+  },
+  ARML: {
+    summary: "稳定、成熟、冷静的弧圈进攻型选手，善于用高质量旋转持续施压。",
+    strengths: ["弧圈质量稳定", "大赛感强，关键分心态稳", "攻中带控，结构完整"],
+    weaknesses: ["若节奏被极限压缩，出手空间会不足", "偶尔会过于追求合理性而少了突然性"],
+    fitStyle: "弧圈主导、稳定拉冲、旋转控制进攻型打法",
+    matchBehavior: "不是最炸的，但往往是最持续、最难顶住的那种进攻。",
+    growth: "增加快速转换与突发加速，提升不可预测性。",
+    doublesRole: "适合做双打中的稳定输出点。",
+    extraTrain: "弧圈质量维持、拉冲后连续、正反手转换与突然加速。",
+    quote: "真正可怕的进攻，不是一板爆，而是一直压。"
+  },
+  ARPF: {
+    summary: "会设计进攻节奏的旋转压制者，既讲布局，也具备明显压迫性。",
+    strengths: ["发接发设计能力强", "旋转变化丰富", "能把比赛导入自己想要的模式"],
+    weaknesses: ["当战术被识破时，可能出现短暂犹豫", "若过度依赖布局，节奏可能略显拖沓"],
+    fitStyle: "旋转组织、设计性进攻、控制后压制型打法",
+    matchBehavior: "像在场上织网，等对手真正意识到时，已经被套住。",
+    growth: "提升计划落空后的即兴修正能力。",
+    doublesRole: "适合做双打中的战术发牌者与节奏组织点。",
+    extraTrain: "发球变化、接发控制、抢拉套路与转守为攻训练。",
+    quote: "先把局面做成我想要的样子，再把你压住。"
+  },
+  ARPL: {
+    summary: "极具系统性的旋转指挥型人格，擅长通过回合设计和旋转层次掌控比赛。",
+    strengths: ["结构强，调度能力高", "旋转、落点、节奏结合成熟", "比赛全局感好"],
+    weaknesses: ["面对极致快压时，容错窗口会缩小", "有时显得不够凶"],
+    fitStyle: "体系弧圈、旋转调度、回合构建型打法",
+    matchBehavior: "你不是在打一分，而是在经营整场比赛。",
+    growth: "增加一板终结能力，把体系优势更快兑现为比分优势。",
+    doublesRole: "适合做双打中的战术中枢。",
+    extraTrain: "多拍构建、旋转变化、落点牵制和机会球终结训练。",
+    quote: "我赢的不是一板，而是整套局面。"
+  },
+
+  CSMF: {
+    summary: "带情绪驱动力的节奏控制型选手，能在快节奏中稳住并反制对手。",
+    strengths: ["节奏感强", "近台控制细腻", "气势起来后控球更有压迫"],
+    weaknesses: ["情绪高涨时可能想法快于手上控制", "若长期被压，反制窗口可能不明显"],
+    fitStyle: "近台控制、快节奏反压、稳中带攻型打法",
+    matchBehavior: "看起来不炸，但能靠节奏把对手越打越别扭。",
+    growth: "提高控制后主动得分的一板质量。",
+    doublesRole: "适合做双打中的前台节奏稳定器。",
+    extraTrain: "摆短劈长、近台借力、控制后突击训练。",
+    quote: "我不一定先发力，但我会让你越来越难受。"
+  },
+  CSML: {
+    summary: "冷静、稳定、难以被打穿的节拍器型选手，擅长把比赛压进可控区。",
+    strengths: ["失误少，稳定性高", "近台借力与变线好", "胶着局价值很大"],
+    weaknesses: ["终结性可能不足", "若太强调控制，容易被高质量进攻持续压制"],
+    fitStyle: "稳控快节奏、落点限制、近台控制反制型打法",
+    matchBehavior: "你像一台节拍器，让比赛始终按你的节奏走。",
+    growth: "加强主动提速和终结能力，形成完整闭环。",
+    doublesRole: "适合做双打中的稳态维持者。",
+    extraTrain: "借力防守、连续落点、节奏反差和机会球处理。",
+    quote: "稳，不是保守，而是把对手拖进我的秩序。"
+  },
+  CSPF: {
+    summary: "擅长前台布控和局面规划的节奏型控制者，用结构制造主动。",
+    strengths: ["布控能力强", "线路意识清晰", "擅长让对手打不到舒服点"],
+    weaknesses: ["若过于控局，可能错过直接终结机会", "碰到极致爆冲时需要更快应对"],
+    fitStyle: "前台布控、控制转进攻、线路组织型打法",
+    matchBehavior: "你常常不是靠一板吓人，而是靠每一板都让人难受。",
+    growth: "提高把控制优势转化为直接得分的效率。",
+    doublesRole: "适合做双打中的机会制造者。",
+    extraTrain: "线路限制、接发变化、控转攻和两板衔接训练。",
+    quote: "真正的主动，不一定是先冲，而是先控住。"
+  },
+  CSPL: {
+    summary: "理性的控局型选手，擅长把比赛拆解、安排并稳定执行。",
+    strengths: ["大局观强", "稳定执行能力高", "不容易被情绪和比分带乱"],
+    weaknesses: ["爆发不足时可能显得平", "若太坚持结构，临场变化可能偏慢"],
+    fitStyle: "理性控场、细节积累、结构推进型打法",
+    matchBehavior: "你像在一分一分搭楼，最后让整场比赛向你倾斜。",
+    growth: "提升瞬间加速、突击和临场即兴能力。",
+    doublesRole: "适合做双打中的后场指挥大脑。",
+    extraTrain: "多拍控场、节奏拆解、变化插入和主动提速训练。",
+    quote: "局面不是等来的，是一板一板安排出来的。"
+  },
+
+  CRMF: {
+    summary: "耐心、能缠斗、能反扑的热血型防反球手，擅长后程发力。",
+    strengths: ["韧性强，反制意识好", "中远台相持能力佳", "对手着急时很容易被你抓住"],
+    weaknesses: ["前三板若过于被动，容易先丢主动", "情绪起来时可能过早反扑"],
+    fitStyle: "控制防反、相持缠斗、等待反击型打法",
+    matchBehavior: "你不急着赢第一板，但很擅长赢后面的三板。",
+    growth: "提高前三板导入能力，让反击不总从被动开始。",
+    doublesRole: "适合做双打中的守转攻连接者。",
+    extraTrain: "接发稳控、中远台防反、相持耐性与反击时机训练。",
+    quote: "你以为你占优了，其实只是进入了我的反扑区。"
+  },
+  CRML: {
+    summary: "深稳、耐心、旋转感强的防控型选手，以稳定和复杂度拖住比赛。",
+    strengths: ["相持稳定，容错高", "旋转与弧线控制好", "不容易被轻易连续打穿"],
+    weaknesses: ["起速较慢，开局可能偏被动", "终结不够果断时容易拖长回合"],
+    fitStyle: "深稳弧控、相持调度、稳中防反型打法",
+    matchBehavior: "别人想快速结束比赛，但你总能把它打回耐心战。",
+    growth: "增强第一板质量和机会球终结能力。",
+    doublesRole: "适合做双打中的稳定后盾型角色。",
+    extraTrain: "相持稳定、深浅落点、旋转变化与反攻质量训练。",
+    quote: "我不怕长回合，因为那正是我建立优势的地方。"
+  },
+  CRPF: {
+    summary: "有策略、有韧性、能防能转攻的热策型控制者。",
+    strengths: ["懂得先稳住再找窗口", "旋转和线路有计划", "逆风局也有持续作战能力"],
+    weaknesses: ["如果过度等待时机，可能失去主动", "面对极快压制时需要更早应对"],
+    fitStyle: "策略防反、旋转限制、稳转攻型打法",
+    matchBehavior: "你像是在场上耐心排兵布阵，等对手犯错或露破绽。",
+    growth: "加强主动抢先的能力，减少完全被动开局。",
+    doublesRole: "适合做双打中的战术连接器与节奏调和者。",
+    extraTrain: "控制+反撕、转守为攻、线路预判和前三板应对训练。",
+    quote: "先把对手打急，再把机会变成自己的。"
+  },
+  CRPL: {
+    summary: "深谋型弧圈控制者，擅长通过旋转、布局和耐心经营整场比赛。",
+    strengths: ["全局规划能力强", "旋转调度成熟", "战术耐心和执行力突出"],
+    weaknesses: ["面对强冲型对手时节奏容易被压缩", "有时计划过多、出手不够果断"],
+    fitStyle: "布局弧圈、旋转控制、体系防反型打法",
+    matchBehavior: "你更像是在下棋，而不是只在打一板球。",
+    growth: "增强抓机会的果断性，把优势更快落地到比分。",
+    doublesRole: "适合做双打中的策略核心与后场调度者。",
+    extraTrain: "战术布局、旋转牵制、多拍构建与终结决断训练。",
+    quote: "真正的掌控，是让整场比赛都在你的计划里。"
+  }
+};
+
+const typeGallery = [
+  { code:"ASMF", name:"雷霆快攻手", brief:"高压爆发型快攻人格" },
+  { code:"ASML", name:"冷锋快压者", brief:"冷静高效的快节奏压制者" },
+  { code:"ASPF", name:"燃点突击手", brief:"有战术设计的激情突击者" },
+  { code:"ASPL", name:"战术快攻官", brief:"结构型、体系型快攻人格" },
+
+  { code:"ARMF", name:"热浪冲旋手", brief:"热血弧圈压制型人格" },
+  { code:"ARML", name:"冷面弧爆手", brief:"稳定成熟的弧圈攻击者" },
+  { code:"ARPF", name:"旋压指挥官", brief:"会设计进攻的旋转压制者" },
+  { code:"ARPL", name:"旋转指挥官", brief:"系统型旋转进攻大脑" },
+
+  { code:"CSMF", name:"热血节奏控", brief:"带气势的近台节奏控制者" },
+  { code:"CSML", name:"稳控节拍器", brief:"稳定、冷静、难打透的控场者" },
+  { code:"CSPF", name:"前台布控者", brief:"前台线路与结构控制专家" },
+  { code:"CSPL", name:"理性控局者", brief:"拆解比赛、稳定执行的控局派" },
+
+  { code:"CRMF", name:"热血防反家", brief:"韧性很强的相持反扑者" },
+  { code:"CRML", name:"深稳弧控手", brief:"耐心深稳的弧线控制者" },
+  { code:"CRPF", name:"热策弧防师", brief:"有策略的稳转攻控制人格" },
+  { code:"CRPL", name:"深谋弧圈家", brief:"布局型旋转控制大脑" }
+];
+
+const typeTagMap = {
+  A:"主动进攻", C:"稳健控制",
+  S:"近台速度", R:"旋转相持",
+  M:"临场感觉", P:"体系规划",
+  F:"激情爆发", L:"冷静执行"
+};
+
+const typeCoreLabel = {
+  A:"进攻主导", C:"控制主导",
+  S:"速度压制", R:"旋转组织",
+  M:"感觉驱动", P:"战术驱动",
+  F:"情绪爆发", L:"冷静执行"
+};
+
+const themeMap = {
+  ASMF:["#ff6b6b","#ff8e53"], ASML:["#3b82f6","#6366f1"], ASPF:["#f97316","#ef4444"], ASPL:["#06b6d4","#4f46e5"],
+  ARMF:["#ec4899","#8b5cf6"], ARML:["#7c3aed","#2563eb"], ARPF:["#d946ef","#7c3aed"], ARPL:["#6366f1","#4f46e5"],
+  CSMF:["#22c55e","#14b8a6"], CSML:["#14b8a6","#0ea5e9"], CSPF:["#10b981","#3b82f6"], CSPL:["#0ea5e9","#6366f1"],
+  CRMF:["#f59e0b","#ef4444"], CRML:["#84cc16","#14b8a6"], CRPF:["#a855f7","#ec4899"], CRPL:["#1d4ed8","#0ea5e9"]
+};
+
+const scaleLabels = [
+  {v:1, text:"非常不同意"},
+  {v:2, text:"比较不同意"},
+  {v:3, text:"中立 / 看情况"},
+  {v:4, text:"比较同意"},
+  {v:5, text:"非常同意"},
+];
+
+/* =========================
+   状态
+========================= */
+let currentQuestion = 0;
+let answers = new Array(questions.length).fill(null); // 1~5
+let currentResultCode = "";
+let lastScores = null;
+let lastTendency = null;
+let lastSimilarTop3 = null;
+let lastAnswerSig = "";
+let profile = {
+  nickname: "",
+  avatarDataUrl: ""
+};
+
+/* =========================
+   工具
+========================= */
+function showScreen(id){
+  document.querySelectorAll(".screen").forEach(el=>el.classList.remove("active"));
+  document.getElementById(id).classList.add("active");
+  window.scrollTo({top:0, behavior:"smooth"});
+}
+function hexToRgba(hex, alpha=1){
+  let h = hex.replace("#","");
+  if(h.length === 3) h = h.split("").map(x => x+x).join("");
+  const num = parseInt(h,16);
+  const r = (num >> 16) & 255;
+  const g = (num >> 8) & 255;
+  const b = num & 255;
+  return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+}
+function clamp(n, min, max){ return Math.max(min, Math.min(max, n)); }
+function getInitialChar(name){
+  if(!name) return "?";
+  return name.trim().slice(0,1).toUpperCase();
+}
+
+/* =========================
+   存储
+========================= */
+function saveState(){
+  const state = {
+    currentQuestion,
+    answers,
+    currentResultCode,
+    profile
+  };
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+}
+
+function loadState(){
+  const raw = localStorage.getItem(STORAGE_KEY);
+  if(!raw) return false;
+  try{
+    const state = JSON.parse(raw);
+    currentQuestion = typeof state.currentQuestion === "number" ? state.currentQuestion : 0;
+    answers = Array.isArray(state.answers) && state.answers.length === questions.length ? state.answers : new Array(questions.length).fill(null);
+    currentResultCode = state.currentResultCode || "";
+    profile = state.profile || {nickname:"", avatarDataUrl:""};
+    syncProfileUI();
+    return true;
+  }catch(e){
+    return false;
+  }
+}
+
+function clearState(){
+  localStorage.removeItem(STORAGE_KEY);
+}
+
+/* =========================
+   个人信息
+========================= */
+function syncProfileUI(){
+  const nicknameInput = document.getElementById("nicknameInput");
+  nicknameInput.value = profile.nickname || "";
+
+  const avatarPreview = document.getElementById("avatarPreview");
+  if(profile.avatarDataUrl){
+    avatarPreview.innerHTML = `<img src="${profile.avatarDataUrl}" alt="avatar" />`;
+  }else{
+    avatarPreview.textContent = getInitialChar(profile.nickname);
+  }
+}
+
+document.getElementById("nicknameInput").addEventListener("input", function(e){
+  profile.nickname = e.target.value.trim();
+  syncProfileUI();
+  saveState();
+});
+
+document.getElementById("avatarInput").addEventListener("change", function(e){
+  const file = e.target.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = function(ev){
+    profile.avatarDataUrl = ev.target.result;
+    syncProfileUI();
+    saveState();
+  };
+  reader.readAsDataURL(file);
+});
+
+function clearAvatar(){
+  profile.avatarDataUrl = "";
+  syncProfileUI();
+  saveState();
+}
+
+/* =========================
+   首页/流程
+========================= */
+function goHome(){ showScreen("introScreen"); }
+
+function startTest(){
+  if(!answers || answers.length !== questions.length){
+    answers = new Array(questions.length).fill(null);
+  }
+  currentQuestion = clamp(currentQuestion || 0, 0, questions.length - 1);
+  saveState();
+  showScreen("questionScreen");
+  renderQuestion();
+}
+
+function recoverIfPossible(){
+  const ok = loadState();
+  if(!ok){
+    alert("暂无可恢复的进度。");
+    return;
+  }
+  const hasResult = currentResultCode && resultsMap[currentResultCode];
+  if(hasResult){
+    showResult();
+  }else{
+    showScreen("questionScreen");
+    renderQuestion();
+  }
+}
+
+function restartTest(){
+  answers = new Array(questions.length).fill(null);
+  currentQuestion = 0;
+  currentResultCode = "";
+  saveState();
+  showScreen("questionScreen");
+  renderQuestion();
+}
+
+function resetAnswersConfirm(){
+  if(confirm("确定要清空当前答题进度并重新开始吗？")){
+    answers = new Array(questions.length).fill(null);
+    currentQuestion = 0;
+    currentResultCode = "";
+    saveState();
+    renderQuestion();
+  }
+}
+
+/* =========================
+   题目
+========================= */
+function renderQuestion(){
+  const q = questions[currentQuestion];
+  const doneCount = answers.filter(v => v !== null).length;
+  const percent = Math.round((doneCount / questions.length) * 100);
+
+  document.getElementById("progressText").textContent = `第 ${currentQuestion + 1} / ${questions.length} 题`;
+  document.getElementById("progressNum").textContent = `${percent}%`;
+  document.getElementById("progressFill").style.width = `${percent}%`;
+
+  document.getElementById("questionBadge").textContent = `${q.tag} · ${q.dimension}`;
+  document.getElementById("questionTitle").textContent = q.text;
+  document.getElementById("questionDesc").textContent = "请根据你真实的打球习惯和比赛状态进行选择，不要按“理想中的自己”作答。";
+  document.getElementById("leftHint").textContent = q.leftLabel;
+  document.getElementById("rightHint").textContent = q.rightLabel;
+
+  const scaleGrid = document.getElementById("scaleGrid");
+  scaleGrid.innerHTML = "";
+
+  scaleLabels.forEach(item => {
+    const active = answers[currentQuestion] === item.v;
+    const btn = document.createElement("button");
+    btn.className = "scale-btn" + (active ? " active" : "");
+    btn.innerHTML = `
+      <div class="scale-num">${item.v}</div>
+      <div class="scale-text">${item.text}</div>
+    `;
+    btn.onclick = () => chooseScale(item.v);
+    scaleGrid.appendChild(btn);
+  });
+
+  document.getElementById("prevBtn").disabled = currentQuestion === 0;
+  document.getElementById("nextBtn").style.display = currentQuestion === questions.length - 1 ? "none" : "block";
+  document.getElementById("submitBtn").style.display = currentQuestion === questions.length - 1 ? "block" : "none";
+
+  if(currentQuestion === questions.length - 1){
+    document.getElementById("submitBtn").disabled = answers[currentQuestion] === null;
+  }else{
+    document.getElementById("nextBtn").disabled = answers[currentQuestion] === null;
+  }
+}
+
+function chooseScale(value){
+  answers[currentQuestion] = value;
+  saveState();
+  renderQuestion();
+}
+
+function prevQuestion(){
+  if(currentQuestion > 0){
+    currentQuestion--;
+    saveState();
+    renderQuestion();
+  }
+}
+function nextQuestion(){
+  if(answers[currentQuestion] === null){
+    alert("请先完成这一题。");
+    return;
+  }
+  if(currentQuestion < questions.length - 1){
+    currentQuestion++;
+    saveState();
+    renderQuestion();
+  }
+}
+
+function submitTest(){
+  if(answers.includes(null)){
+    const firstUnanswered = answers.findIndex(a => a === null);
+    if(firstUnanswered !== -1){
+      currentQuestion = firstUnanswered;
+      saveState();
+      renderQuestion();
+      alert("你还有未完成的题目，已跳转到第一道未作答题。");
+      return;
+    }
+  }
+  showResult();
+}
+
+/* =========================
+   评分
+   五级量表：1~5
+   polarity 为左侧倾向字母
+   若题型 polarity = A，则：
+   1=>C +2, 2=>C +1, 3=>各+0.5, 4=>A +1, 5=>A +2
+========================= */
+function calculateScores(){
+  const scores = { A:0,C:0,S:0,R:0,M:0,P:0,F:0,L:0 };
+
+  questions.forEach((q, idx) => {
+    const ans = answers[idx];
+    if(ans === null) return;
+
+    const pair = q.dimension.split("/");
+    const leftType = q.polarity; // A / S / M / F
+    const rightType = pair.find(x => x !== leftType);
+
+    if(ans === 1){ scores[rightType] += 2; }
+    if(ans === 2){ scores[rightType] += 1; }
+    if(ans === 3){ scores[rightType] += 0.5; scores[leftType] += 0.5; }
+    if(ans === 4){ scores[leftType] += 1; }
+    if(ans === 5){ scores[leftType] += 2; }
+  });
+
+  return scores;
+}
+
+function getTendencyFromAnswers(){
+  // 每题映射到 [-1,-0.5,0,+0.5,+1]，累计得到每维度左右倾向的连续值
+  // 返回对象：{AC, SR, MP, FL}，范围约 [-6, +6]（6题）
+  const map = { 1:-1, 2:-0.5, 3:0, 4:0.5, 5:1 };
+  const t = { AC:0, SR:0, MP:0, FL:0 };
+
+  questions.forEach((q, idx) => {
+    const ans = answers[idx];
+    if(ans === null) return;
+    const v = map[ans] ?? 0;
+    // polarity 是 leftType（A/S/M/F），我们把“向 leftType”为正向
+    if(q.dimension === "A/C") t.AC += v;
+    if(q.dimension === "S/R") t.SR += v;
+    if(q.dimension === "M/P") t.MP += v;
+    if(q.dimension === "F/L") t.FL += v;
+  });
+  return t;
+}
+
+function getAnswerSignature(){
+  // 用于缓存：把答案数组压成字符串
+  return answers.map(v => (v === null ? "_" : String(v))).join("");
+}
+
+function pickLetterByTendency(pair, tendencyValue){
+  // pair: ["A","C"] 这种，tendencyValue>0 表示偏向 pair[0]
+  const eps = 0.35; // 接近平衡阈值（约等于 1 道题从 3 到 4 的变化）
+  if (tendencyValue > eps) return { letter: pair[0], balanced:false };
+  if (tendencyValue < -eps) return { letter: pair[1], balanced:false };
+
+  // 接近平衡：用极端答案数量破平（4/5 vs 1/2）
+  let leftExtreme = 0;
+  let rightExtreme = 0;
+  const dim = pair.join("/");
+  questions.forEach((q, idx) => {
+    if(q.dimension !== dim) return;
+    const ans = answers[idx];
+    if(ans === 4 || ans === 5) leftExtreme++;
+    if(ans === 1 || ans === 2) rightExtreme++;
+  });
+  if(leftExtreme !== rightExtreme){
+    return { letter: leftExtreme > rightExtreme ? pair[0] : pair[1], balanced:true };
+  }
+  return { letter: pair[0], balanced:true }; // 最后兜底，保持原有左侧默认
+}
+
+function getTypeCode(scores){
+  // 优先用连续倾向避免平局偏置；接近平衡时保持稳定但标记 balanced
+  const t = getTendencyFromAnswers();
+  const a = pickLetterByTendency(["A","C"], t.AC);
+  const s = pickLetterByTendency(["S","R"], t.SR);
+  // M/P 维度题目 polarity=M（向 M 为正），但字母顺序是 M/P，正向就是 M
+  const m = pickLetterByTendency(["M","P"], t.MP);
+  const f = pickLetterByTendency(["F","L"], t.FL);
+  lastTendency = { raw: t, balanced: { AC:a.balanced, SR:s.balanced, MP:m.balanced, FL:f.balanced } };
+  return a.letter + s.letter + m.letter + f.letter;
+}
+function getPercent(left, right){
+  const total = left + right || 1;
+  return Math.round((left / total) * 100);
+}
+
+function getRadarValues(scores){
+  // 四个抽象指标 0-100
+  return [
+    getPercent(scores.A, scores.C), // 主动压制
+    getPercent(scores.S, scores.R), // 速度爆发
+    getPercent(scores.P, scores.M), // 战术规划（P越高越偏规划）
+    getPercent(scores.F, scores.L)  // 竞技气场
+  ];
+}
+
+function setTheme(code){
+  const [c1, c2] = themeMap[code] || ["#4f7cff","#7c5cff"];
+  document.documentElement.style.setProperty("--primary", c1);
+  document.documentElement.style.setProperty("--primary2", c2);
+  document.documentElement.style.setProperty("--soft", hexToRgba(c1,.10));
+  document.getElementById("resultHero").style.background = `linear-gradient(135deg, ${c1}, ${c2})`;
+}
+
+function renderList(id, list){
+  document.getElementById(id).innerHTML = list.map(i => `<li>${i}</li>`).join("");
+}
+
+function renderExplain(code) {
+  const exp = resultExplainMap[code];
+  if (!exp) return;
+
+  const summaryEl = document.getElementById("explainSummary");
+  const strengthEl = document.getElementById("strengthList");
+  const weaknessEl = document.getElementById("weaknessList");
+  const fitEl = document.getElementById("fitStyleText");
+  const behaviorEl = document.getElementById("matchBehaviorText");
+  const growthEl = document.getElementById("growthText");
+  const doublesEl = document.getElementById("doublesRoleText");
+  const extraTrainEl = document.getElementById("extraTrainText");
+  const quoteEl = document.getElementById("quoteText");
+
+  if (summaryEl) summaryEl.textContent = exp.summary;
+  if (strengthEl) strengthEl.innerHTML = exp.strengths.map(i => `<li>${i}</li>`).join("");
+  if (weaknessEl) weaknessEl.innerHTML = exp.weaknesses.map(i => `<li>${i}</li>`).join("");
+  if (fitEl) fitEl.textContent = exp.fitStyle;
+  if (behaviorEl) behaviorEl.textContent = exp.matchBehavior;
+  if (growthEl) growthEl.textContent = exp.growth;
+  if (doublesEl) doublesEl.textContent = exp.doublesRole;
+  if (extraTrainEl) extraTrainEl.textContent = exp.extraTrain;
+  if (quoteEl) quoteEl.textContent = exp.quote;
+
+  const similarEl = document.getElementById("similarTypeList");
+  if (similarEl && Array.isArray(lastSimilarTop3) && lastSimilarTop3.length) {
+    similarEl.innerHTML = lastSimilarTop3.map(item => {
+      const safeName = item.name || item.code;
+      const tip = item.note ? ` <span style="color:#6b7280;font-weight:700;">${item.note}</span>` : "";
+      return `<span class="mini-btn" style="display:inline-flex;align-items:center;gap:8px;margin:6px 8px 0 0;" onclick="openTypeGallery();openTypeDetail('${item.code}')">查看 ${safeName}（${item.code}）</span>${tip}`;
+    }).join("");
+  }
+}
+
+function renderGallery() {
+  const wrap = document.getElementById("galleryGrid");
+  if (!wrap) return;
+
+  wrap.innerHTML = typeGallery.map(item => {
+    const exp = resultExplainMap[item.code] || {};
+    return `
+      <div class="gallery-card" role="button" tabindex="0" onclick="openTypeDetail('${item.code}')">
+        <div class="top">
+          <div class="gallery-name">${item.name}</div>
+          <div class="gallery-code">${item.code}</div>
+        </div>
+        <div class="gallery-brief">${item.brief}</div>
+        <div class="gallery-tags">
+          <span class="gallery-tag">${exp.fitStyle || "风格待补充"}</span>
+          <span class="gallery-tag">${exp.doublesRole || "双打定位待补充"}</span>
+        </div>
+        <div class="gallery-quote">${exp.quote || ""}</div>
+      </div>
+    `;
+  }).join("");
+}
+
+function openTypeGallery() {
+  renderGallery();
+  const modal = document.getElementById("typeGalleryModal");
+  if (modal) modal.classList.add("show");
+  document.body.style.overflow = "hidden";
+  backToGalleryList();
+}
+
+function closeTypeGallery(event) {
+  if (event && event.target && event.target.closest && event.target.closest(".modal-panel")) return;
+  const modal = document.getElementById("typeGalleryModal");
+  if (modal) modal.classList.remove("show");
+  document.body.style.overflow = "";
+}
+
+function backToGalleryList(){
+  const list = document.getElementById("galleryListView");
+  const detail = document.getElementById("galleryDetailView");
+  if (detail) detail.style.display = "none";
+  if (list) list.style.display = "block";
+}
+
+function scrollGalleryTop(){
+  const panel = document.querySelector("#typeGalleryModal .modal-panel");
+  if (panel) panel.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+function openTypeDetail(code){
+  const item = typeGallery.find(x => x.code === code);
+  const exp = resultExplainMap[code];
+  if (!item || !exp) return;
+
+  const list = document.getElementById("galleryListView");
+  const detail = document.getElementById("galleryDetailView");
+  if (list) list.style.display = "none";
+  if (detail) detail.style.display = "block";
+
+  const colors = themeMap[code] || ["#4f7cff", "#7c5cff"];
+  const hero = document.getElementById("detailHero");
+  if (hero) {
+    hero.style.background = `linear-gradient(135deg, ${colors[0]}, ${colors[1]})`;
+    hero.innerHTML = `
+      <div class="row">
+        <div class="name">${item.name}</div>
+        <div class="code">类型代码 · ${code}</div>
+      </div>
+      <div class="brief">${item.brief}</div>
+    `;
+  }
+
+  const setText = (id, text) => {
+    const el = document.getElementById(id);
+    if (el) el.textContent = text || "";
+  };
+  const setList = (id, arr) => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    const list = Array.isArray(arr) ? arr : [];
+    el.innerHTML = list.map(i => `<li>${i}</li>`).join("");
+  };
+
+  setText("detailSummary", exp.summary);
+  setList("detailStrengths", exp.strengths);
+  setList("detailWeaknesses", exp.weaknesses);
+  setText("detailFitStyle", exp.fitStyle);
+  setText("detailBehavior", exp.matchBehavior);
+  setText("detailGrowth", exp.growth);
+  setText("detailDoubles", exp.doublesRole);
+  setText("detailExtraTrain", exp.extraTrain);
+  setText("detailQuote", exp.quote ? `「${exp.quote}」` : "");
+
+  scrollGalleryTop();
+}
+
+document.addEventListener("keydown", function(e){
+  if (e.key === "Escape") {
+    const modal = document.getElementById("typeGalleryModal");
+    if (modal && modal.classList.contains("show")) {
+      backToGalleryList();
+      modal.classList.remove("show");
+      document.body.style.overflow = "";
+    }
+  }
+});
+
+function renderScores(scores){
+  const pairs = [
+    {left:"A", right:"C", label:"比赛主轴", leftName:"主动进攻", rightName:"稳健控制"},
+    {left:"S", right:"R", label:"技术偏好", leftName:"近台速度", rightName:"旋转相持"},
+    {left:"M", right:"P", label:"决策方式", leftName:"临场感觉", rightName:"体系规划"},
+    {left:"F", right:"L", label:"比赛气质", leftName:"激情爆发", rightName:"冷静执行"},
+  ];
+
+  return pairs.map(pair => {
+    const ls = scores[pair.left];
+    const rs = scores[pair.right];
+    const p = getPercent(ls, rs);
+    const dominant = ls >= rs ? pair.leftName : pair.rightName;
+    return `
+      <div class="metric">
+        <div class="label">${pair.label}</div>
+        <div class="pair">
+          <span>${pair.leftName}</span>
+          <span>${pair.rightName}</span>
+        </div>
+        <div class="bar"><span style="width:${p}%"></span></div>
+        <div class="sub" style="margin-top:8px;font-size:12px;color:#475467;">倾向：<strong style="color:#111827;">${dominant}</strong>（${ls} : ${rs}）</div>
+      </div>
+    `;
+  }).join("");
+}
+
+function renderResultAvatar(containerId){
+  const el = document.getElementById(containerId);
+  if(profile.avatarDataUrl){
+    el.innerHTML = `<img src="${profile.avatarDataUrl}" alt="avatar" />`;
+  }else{
+    el.textContent = getInitialChar(profile.nickname);
+  }
+}
+
+function showResult(){
+  const scores = calculateScores();
+  lastScores = scores;
+  lastAnswerSig = getAnswerSignature();
+  const code = getTypeCode(scores);
+  currentResultCode = code;
+  const result = resultsMap[code];
+
+  setTheme(code);
+
+  document.getElementById("resultName").textContent = profile.nickname || "未设置昵称";
+  document.getElementById("resultCode").textContent = `类型代码 · ${code}`;
+  document.getElementById("resultTitle").textContent = result.title;
+  document.getElementById("resultDesc").textContent = result.desc;
+  document.getElementById("resultTags").innerHTML = code.split("").map(c => `<span class="tag">${typeTagMap[c]}</span>`).join("");
+  document.getElementById("resultCore").textContent = `${typeCoreLabel[code[0]]} · ${typeCoreLabel[code[1]]} · ${typeCoreLabel[code[2]]} · ${typeCoreLabel[code[3]]}`;
+  document.getElementById("scoreGrid").innerHTML = renderScores(scores);
+
+  renderList("profileList", result.profile);
+  renderList("trainingList", result.training);
+  renderList("adviceList", result.advice);
+  renderList("partnerList", result.partner);
+  renderList("counterList", result.counter);
+  renderList("moduleList", result.modules);
+
+  renderResultAvatar("resultAvatar");
+  drawResultRadar(scores);
+  lastSimilarTop3 = getTopSimilarTypes(code);
+  renderExplain(code);
+
+  saveState();
+  showScreen("resultScreen");
+}
+
+function getUserVector(){
+  // 归一化到 [-1,1]，正值代表字母顺序的左侧（A/S/M/F）
+  const t = getTendencyFromAnswers();
+  const norm = (v) => {
+    const max = 6; // 6 题
+    const x = v / max;
+    return Math.max(-1, Math.min(1, x));
+  };
+  return [norm(t.AC), norm(t.SR), norm(t.MP), norm(t.FL)];
+}
+
+function typeToVector(code){
+  // 16 型转成理想向量：左字母 => +1，右字母 => -1
+  const v = [];
+  v.push(code[0] === "A" ? 1 : -1); // A/C
+  v.push(code[1] === "S" ? 1 : -1); // S/R
+  v.push(code[2] === "M" ? 1 : -1); // M/P
+  v.push(code[3] === "F" ? 1 : -1); // F/L
+  return v;
+}
+
+function getTopSimilarTypes(primaryCode){
+  const user = getUserVector();
+  const scored = typeGallery.map(item => {
+    const v = typeToVector(item.code);
+    let d = 0;
+    for(let i=0;i<4;i++){
+      const diff = user[i] - v[i];
+      d += diff * diff;
+    }
+    return { code:item.code, name:item.name, dist:d };
+  }).sort((a,b)=>a.dist-b.dist);
+
+  const top = scored.slice(0, 3);
+  // 给一点“接近平衡”提示（只在非主类型时）
+  return top.map((x, idx) => {
+    let note = "";
+    if(idx === 0 && x.code === primaryCode) note = "主人格";
+    else if(idx === 1) note = "次人格";
+    else if(idx === 2) note = "潜在人格";
+    return { code:x.code, name:x.name, note };
+  });
+}
+
+function backToQuestions(){
+  currentQuestion = answers.findIndex(a => a === null);
+  if(currentQuestion === -1) currentQuestion = 0;
+  saveState();
+  showScreen("questionScreen");
+  renderQuestion();
+}
+
+/* =========================
+   雷达图
+========================= */
+function drawRadarChart(canvas, values, labels, colors, opts = {}) {
+  const ctx = canvas.getContext("2d");
+  const w = canvas.width;
+  const h = canvas.height;
+  ctx.clearRect(0, 0, w, h);
+
+  const cx = w / 2;
+  const cy = h / 2;
+  const radius = Math.min(w, h) * 0.32;
+  const levels = 5;
+  const count = labels.length;
+  const startAngle = -Math.PI / 2;
+
+  const color1 = colors?.[0] || "#4f7cff";
+  const color2 = colors?.[1] || "#7c5cff";
+
+  // 背景
+  const bg = ctx.createLinearGradient(0, 0, w, h);
+  bg.addColorStop(0, "#ffffff");
+  bg.addColorStop(1, "#f8fbff");
+  ctx.fillStyle = bg;
+  roundRect(ctx, 0, 0, w, h, 24);
+  ctx.fill();
+
+  // 网格
+  for (let l = 1; l <= levels; l++) {
+    const r = radius * (l / levels);
+    ctx.beginPath();
+    for (let i = 0; i < count; i++) {
+      const angle = startAngle + (Math.PI * 2 / count) * i;
+      const x = cx + Math.cos(angle) * r;
+      const y = cy + Math.sin(angle) * r;
+      if (i === 0) ctx.moveTo(x, y);
+      else ctx.lineTo(x, y);
+    }
+    ctx.closePath();
+    ctx.strokeStyle = l === levels ? "rgba(79,124,255,.18)" : "rgba(148,163,184,.16)";
+    ctx.lineWidth = 1.5;
+    ctx.stroke();
+  }
+
+  // 轴线
+  for (let i = 0; i < count; i++) {
+    const angle = startAngle + (Math.PI * 2 / count) * i;
+    const x = cx + Math.cos(angle) * radius;
+    const y = cy + Math.sin(angle) * radius;
+    ctx.beginPath();
+    ctx.moveTo(cx, cy);
+    ctx.lineTo(x, y);
+    ctx.strokeStyle = "rgba(148,163,184,.22)";
+    ctx.lineWidth = 1;
+    ctx.stroke();
+  }
+
+  // 刻度文字
+  ctx.fillStyle = "#94a3b8";
+  ctx.font = "20px sans-serif";
+  ctx.textAlign = "center";
+  for (let l = 1; l <= levels; l++) {
+    ctx.fillText(String(l * 20), cx, cy - radius * (l / levels) + 6);
+  }
+
+  // 标签
+  ctx.fillStyle = "#334155";
+  ctx.font = "bold 24px sans-serif";
+  labels.forEach((label, i) => {
+    const angle = startAngle + (Math.PI * 2 / count) * i;
+    const x = cx + Math.cos(angle) * (radius + 54);
+    const y = cy + Math.sin(angle) * (radius + 54);
+    ctx.fillText(label, x, y + 8);
+  });
+
+  // 面积
+  const fillGrad = ctx.createLinearGradient(cx - radius, cy - radius, cx + radius, cy + radius);
+  fillGrad.addColorStop(0, hexToRgba(color1, 0.30));
+  fillGrad.addColorStop(1, hexToRgba(color2, 0.18));
+
+  ctx.beginPath();
+  values.forEach((val, i) => {
+    const angle = startAngle + (Math.PI * 2 / count) * i;
+    const r = radius * (val / 100);
+    const x = cx + Math.cos(angle) * r;
+    const y = cy + Math.sin(angle) * r;
+    if (i === 0) ctx.moveTo(x, y);
+    else ctx.lineTo(x, y);
+  });
+  ctx.closePath();
+  ctx.fillStyle = fillGrad;
+  ctx.fill();
+
+  // 边框
+  ctx.beginPath();
+  values.forEach((val, i) => {
+    const angle = startAngle + (Math.PI * 2 / count) * i;
+    const r = radius * (val / 100);
+    const x = cx + Math.cos(angle) * r;
+    const y = cy + Math.sin(angle) * r;
+    if (i === 0) ctx.moveTo(x, y);
+    else ctx.lineTo(x, y);
+  });
+  ctx.closePath();
+  ctx.strokeStyle = color1;
+  ctx.lineWidth = 6;
+  ctx.stroke();
+
+  // 点
+  values.forEach((val, i) => {
+    const angle = startAngle + (Math.PI * 2 / count) * i;
+    const r = radius * (val / 100);
+    const x = cx + Math.cos(angle) * r;
+    const y = cy + Math.sin(angle) * r;
+
+    ctx.beginPath();
+    ctx.arc(x, y, 9, 0, Math.PI * 2);
+    ctx.fillStyle = "#fff";
+    ctx.fill();
+
+    ctx.beginPath();
+    ctx.arc(x, y, 6, 0, Math.PI * 2);
+    ctx.fillStyle = color1;
+    ctx.fill();
+  });
+
+  // 标题（可选）
+  if (opts.title) {
+    ctx.fillStyle = "#0f172a";
+    ctx.font = "bold 30px sans-serif";
+    ctx.textAlign = "left";
+    ctx.fillText(opts.title, 28, 42);
+  }
+}
+
+function roundRect(ctx, x, y, w, h, r) {
+  const rr = Math.min(r, w / 2, h / 2);
+  ctx.beginPath();
+  ctx.moveTo(x + rr, y);
+  ctx.arcTo(x + w, y, x + w, y + h, rr);
+  ctx.arcTo(x + w, y + h, x, y + h, rr);
+  ctx.arcTo(x, y + h, x, y, rr);
+  ctx.arcTo(x, y, x + w, y, rr);
+  ctx.closePath();
+}
+
+function drawResultRadar(scores) {
+  const canvas = document.getElementById("resultRadarCanvas");
+  const code = currentResultCode || getTypeCode(scores);
+  const colors = themeMap[code] || ["#4f7cff", "#7c5cff"];
+  const values = getRadarValues(scores);
+  const labels = ["主动压制", "速度爆发", "战术规划", "竞技气场"];
+  drawRadarChart(canvas, values, labels, colors);
+}
+
+/* =========================
+   海报
+========================= */
+function openPoster() {
+  if (!currentResultCode || !resultsMap[currentResultCode]) {
+    alert("请先完成测试并生成结果。");
+    return;
+  }
+  document.getElementById("posterModal").classList.add("show");
+  generatePoster();
+}
+
+function closePoster() {
+  document.getElementById("posterModal").classList.remove("show");
+}
+
+async function loadImage(src) {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.crossOrigin = "anonymous";
+    img.onload = () => resolve(img);
+    img.onerror = reject;
+    img.src = src;
+  });
+}
+
+async function drawAvatar(ctx, x, y, size) {
+  ctx.save();
+  ctx.beginPath();
+  ctx.arc(x + size / 2, y + size / 2, size / 2, 0, Math.PI * 2);
+  ctx.closePath();
+  ctx.clip();
+
+  if (profile.avatarDataUrl) {
+    try {
+      const img = await loadImage(profile.avatarDataUrl);
+      ctx.drawImage(img, x, y, size, size);
+    } catch (e) {
+      ctx.fillStyle = "#dbeafe";
+      ctx.fillRect(x, y, size, size);
+      ctx.fillStyle = "#2563eb";
+      ctx.font = "bold 56px sans-serif";
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+      ctx.fillText(getInitialChar(profile.nickname), x + size / 2, y + size / 2 + 4);
+    }
+  } else {
+    ctx.fillStyle = "#dbeafe";
+    ctx.fillRect(x, y, size, size);
+    ctx.fillStyle = "#2563eb";
+    ctx.font = "bold 56px sans-serif";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    ctx.fillText(getInitialChar(profile.nickname), x + size / 2, y + size / 2 + 4);
+  }
+  ctx.restore();
+}
+
+function fillRoundRect(ctx, x, y, w, h, r, color) {
+  ctx.save();
+  roundRect(ctx, x, y, w, h, r);
+  ctx.fillStyle = color;
+  ctx.fill();
+  ctx.restore();
+}
+
+function strokeRoundRect(ctx, x, y, w, h, r, color, lineWidth=1) {
+  ctx.save();
+  roundRect(ctx, x, y, w, h, r);
+  ctx.strokeStyle = color;
+  ctx.lineWidth = lineWidth;
+  ctx.stroke();
+  ctx.restore();
+}
+
+function drawWrappedText(ctx, text, x, y, maxWidth, lineHeight, maxLines = 99) {
+  const chars = text.split("");
+  let line = "";
+  let lines = [];
+  for (let i = 0; i < chars.length; i++) {
+    const testLine = line + chars[i];
+    if (ctx.measureText(testLine).width > maxWidth && line) {
+      lines.push(line);
+      line = chars[i];
+    } else {
+      line = testLine;
+    }
+  }
+  if (line) lines.push(line);
+  lines = lines.slice(0, maxLines);
+  lines.forEach((ln, idx) => {
+    ctx.fillText(ln, x, y + idx * lineHeight);
+  });
+  return y + lines.length * lineHeight;
+}
+
+async function generatePoster() {
+  const code = currentResultCode;
+  const result = resultsMap[code];
+  const scores = (lastScores && lastAnswerSig === getAnswerSignature()) ? lastScores : calculateScores();
+  const colors = themeMap[code] || ["#4f7cff", "#7c5cff"];
+  const radarValues = getRadarValues(scores);
+  const quote = (resultExplainMap[code] && resultExplainMap[code].quote) ? resultExplainMap[code].quote : "";
+
+  const canvas = document.getElementById("posterCanvas");
+  const ctx = canvas.getContext("2d");
+  const w = canvas.width;
+  const h = canvas.height;
+
+  ctx.clearRect(0, 0, w, h);
+
+  // 背景
+  const bg = ctx.createLinearGradient(0, 0, 0, h);
+  bg.addColorStop(0, "#f8fbff");
+  bg.addColorStop(1, "#eef4ff");
+  ctx.fillStyle = bg;
+  ctx.fillRect(0, 0, w, h);
+
+  // 顶部主视觉
+  const heroGrad = ctx.createLinearGradient(0, 0, w, 520);
+  heroGrad.addColorStop(0, colors[0]);
+  heroGrad.addColorStop(1, colors[1]);
+  fillRoundRect(ctx, 46, 46, w - 92, 520, 40, heroGrad);
+
+  ctx.save();
+  ctx.globalAlpha = 0.10;
+  ctx.beginPath();
+  ctx.arc(w - 150, 120, 140, 0, Math.PI * 2);
+  ctx.fillStyle = "#fff";
+  ctx.fill();
+  ctx.beginPath();
+  ctx.arc(120, 500, 80, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.restore();
+
+  ctx.fillStyle = "rgba(255,255,255,.92)";
+  ctx.font = "bold 30px sans-serif";
+  ctx.fillText("🏓 乒乓球人格测试结果", 86, 112);
+
+  await drawAvatar(ctx, 86, 150, 120);
+
+  ctx.fillStyle = "#fff";
+  ctx.font = "bold 48px sans-serif";
+  ctx.fillText(profile.nickname || "未设置昵称", 228, 212);
+
+  ctx.font = "bold 28px sans-serif";
+  fillRoundRect(ctx, 228, 244, 200, 52, 26, "rgba(255,255,255,.16)");
+  ctx.fillStyle = "#fff";
+  ctx.fillText(`类型代码 · ${code}`, 252, 279);
+
+  ctx.font = "bold 72px sans-serif";
+  ctx.fillText(result.title, 86, 390);
+
+  ctx.font = "30px sans-serif";
+  ctx.fillStyle = "rgba(255,255,255,.92)";
+  drawWrappedText(ctx, result.desc, 86, 448, w - 180, 46, 3);
+
+  // 人格金句
+  if (quote) {
+    const boxY = 548;
+    const boxH = 78;
+    fillRoundRect(ctx, 86, boxY, w - 172, boxH, 24, "rgba(255,255,255,.16)");
+    ctx.fillStyle = "rgba(255,255,255,.96)";
+    ctx.font = "bold 30px sans-serif";
+    drawWrappedText(ctx, `「${quote}」`, 110, boxY + 50, w - 240, 40, 2);
+  }
+
+  // 核心标签
+  let tagY = 610;
+  const tags = code.split("").map(c => typeTagMap[c]);
+  let tagX = 86;
+  ctx.font = "bold 24px sans-serif";
+  tags.forEach(tag => {
+    const tw = ctx.measureText(tag).width + 42;
+    fillRoundRect(ctx, tagX, tagY, tw, 48, 24, "#ffffff");
+    ctx.fillStyle = colors[0];
+    ctx.fillText(tag, tagX + 20, tagY + 31);
+    tagX += tw + 16;
+  });
+
+  // 雷达图卡片
+  fillRoundRect(ctx, 46, 700, w - 92, 760, 36, "#ffffff");
+  strokeRoundRect(ctx, 46, 700, w - 92, 760, 36, "rgba(226,232,240,1)", 2);
+
+  ctx.fillStyle = "#0f172a";
+  ctx.font = "bold 42px sans-serif";
+  ctx.fillText("球风雷达图画像", 84, 780);
+
+  ctx.fillStyle = "#64748b";
+  ctx.font = "28px sans-serif";
+  ctx.fillText("主动压制 / 速度爆发 / 战术规划 / 竞技气场", 84, 826);
+
+  // 画雷达图到临时 canvas
+  const radarCanvas = document.createElement("canvas");
+  radarCanvas.width = 760;
+  radarCanvas.height = 760;
+  drawRadarChart(radarCanvas, radarValues, ["主动压制","速度爆发","战术规划","竞技气场"], colors);
+  ctx.drawImage(radarCanvas, 240, 860, 760, 760);
+
+  // 维度分析
+  fillRoundRect(ctx, 46, 1500, w - 92, 720, 36, "#ffffff");
+  strokeRoundRect(ctx, 46, 1500, w - 92, 720, 36, "rgba(226,232,240,1)", 2);
+
+  ctx.fillStyle = "#0f172a";
+  ctx.font = "bold 42px sans-serif";
+  ctx.fillText("四维倾向分析", 84, 1580);
+
+  const pairData = [
+    { left:"A", right:"C", name1:"主动进攻", name2:"稳健控制" },
+    { left:"S", right:"R", name1:"近台速度", name2:"旋转相持" },
+    { left:"M", right:"P", name1:"临场感觉", name2:"体系规划" },
+    { left:"F", right:"L", name1:"激情爆发", name2:"冷静执行" },
+  ];
+
+  let boxY = 1640;
+  pairData.forEach((item, idx) => {
+    const row = Math.floor(idx / 2);
+    const col = idx % 2;
+    const x = 84 + col * 540;
+    const y = boxY + row * 260;
+    const ls = scores[item.left];
+    const rs = scores[item.right];
+    const p = getPercent(ls, rs);
+
+    fillRoundRect(ctx, x, y, 460, 180, 28, "#f8fbff");
+    strokeRoundRect(ctx, x, y, 460, 180, 28, "#e2e8f0", 2);
+
+    ctx.fillStyle = "#0f172a";
+    ctx.font = "bold 30px sans-serif";
+    ctx.fillText(`${item.name1} vs ${item.name2}`, x + 28, y + 50);
+
+    fillRoundRect(ctx, x + 28, y + 82, 404, 16, 8, "#e7edf7");
+    const barGrad = ctx.createLinearGradient(x + 28, y, x + 432, y);
+    barGrad.addColorStop(0, colors[0]);
+    barGrad.addColorStop(1, colors[1]);
+    fillRoundRect(ctx, x + 28, y + 82, 404 * (p / 100), 16, 8, barGrad);
+
+    ctx.fillStyle = "#475467";
+    ctx.font = "24px sans-serif";
+    ctx.fillText(`${item.name1} ${ls} : ${rs} ${item.name2}`, x + 28, y + 132);
+
+    ctx.fillStyle = colors[0];
+    ctx.font = "bold 24px sans-serif";
+    ctx.fillText(`倾向 ${ls >= rs ? item.name1 : item.name2}`, x + 28, y + 165);
+  });
+
+  // 内容卡片函数
+  function drawInfoCard(title, items, y) {
+    const cardH = 80 + items.length * 58;
+    fillRoundRect(ctx, 46, y, w - 92, cardH, 36, "#ffffff");
+    strokeRoundRect(ctx, 46, y, w - 92, cardH, 36, "#e2e8f0", 2);
+    ctx.fillStyle = "#0f172a";
+    ctx.font = "bold 40px sans-serif";
+    ctx.fillText(title, 84, y + 66);
+
+    ctx.font = "28px sans-serif";
+    ctx.fillStyle = "#334155";
+    items.forEach((it, i) => {
+      ctx.fillText("• " + it, 88, y + 124 + i * 58);
+    });
+    return y + cardH + 24;
+  }
+
+  let y = 2260;
+  y = drawInfoCard("打法画像", result.profile.slice(0,4), y);
+  y = drawInfoCard("双打搭档推荐", result.partner.slice(0,3), y);
+  y = drawInfoCard("推荐训练模块", result.modules.slice(0,4), y);
+
+  // 底部
+  fillRoundRect(ctx, 46, h - 220, w - 92, 150, 30, "rgba(79,124,255,.08)");
+  ctx.fillStyle = "#0f172a";
+  ctx.font = "bold 34px sans-serif";
+  ctx.fillText("长按保存图片，发到朋友圈测试你的球风人格", 84, h - 140);
+  ctx.fillStyle = "#64748b";
+  ctx.font = "26px sans-serif";
+  ctx.fillText("24题五级量表｜自动生成个人测试卡｜结果可社交分享", 84, h - 92);
+}
+
+function downloadPoster() {
+  const canvas = document.getElementById("posterCanvas");
+  const link = document.createElement("a");
+  link.download = `乒乓球人格测试-${currentResultCode || "result"}.png`;
+  link.href = canvas.toDataURL("image/png");
+  link.click();
+}
+
+/* =========================
+   分享
+========================= */
+function buildShareText() {
+  if (!currentResultCode || !resultsMap[currentResultCode]) return "我刚测了乒乓球人格测试，快来试试！";
+  const result = resultsMap[currentResultCode];
+  return `我测出的乒乓球人格是【${result.title}｜${currentResultCode}】🏓
+${result.desc}
+快来测测你的球风人格！`;
+}
+
+function shareResult() {
+  const text = buildShareText();
+  if (navigator.clipboard && window.isSecureContext) {
+    navigator.clipboard.writeText(text).then(() => {
+      alert("结果文案已复制，可以直接去微信/朋友圈粘贴。");
+    }).catch(() => {
+      fallbackCopy(text);
+    });
+  } else {
+    fallbackCopy(text);
+  }
+}
+
+function copyShareText() {
+  shareResult();
+}
+
+function fallbackCopy(text) {
+  const textarea = document.createElement("textarea");
+  textarea.value = text;
+  textarea.style.position = "fixed";
+  textarea.style.left = "-9999px";
+  document.body.appendChild(textarea);
+  textarea.select();
+  try {
+    document.execCommand("copy");
+    alert("分享文案已复制。");
+  } catch (e) {
+    alert("复制失败，请手动复制：\n\n" + text);
+  }
+  document.body.removeChild(textarea);
+}
+
+/* =========================
+   初始化
+========================= */
+(function init() {
+  loadState();
+  syncProfileUI();
+
+  if (currentResultCode && resultsMap[currentResultCode]) {
+    showResult();
+  } else {
+    showScreen("introScreen");
+  }
+})();
+</script>
