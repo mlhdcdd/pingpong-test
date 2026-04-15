@@ -6,17 +6,29 @@
   <title>乒乓球人格测试｜24题五级量表专业版</title>
   <style>
     :root{
-      --bg:#f4f7fb;
-      --card:#ffffff;
-      --text:#172033;
-      --muted:#667085;
-      --line:#e6ebf2;
-      --primary:#4f7cff;
-      --primary2:#7c5cff;
-      --soft:rgba(79,124,255,.10);
-      --shadow:0 18px 44px rgba(15,23,42,.10);
-      --shadow-soft:0 10px 28px rgba(2,6,23,.06);
-      --radius:22px;
+      /* ===== 霓虹活动页主题 ===== */
+      --bg0:#070A1A;
+      --bg1:#0B1030;
+      --text:#EAF0FF;
+      --muted:rgba(234,240,255,.72);
+      --line:rgba(255,255,255,.10);
+
+      --primary:#6D5BFF;     /* 电紫 */
+      --primary2:#00D5FF;    /* 霓虹青 */
+      --accent:#FF3DCE;      /* 玫红强调 */
+      --soft:rgba(0,213,255,.12);
+
+      --card0:rgba(255,255,255,.06);
+      --cardGlass:rgba(255,255,255,.08);
+
+      --shadow:0 24px 60px rgba(0,0,0,.40);
+      --shadow-soft:0 18px 44px rgba(0,0,0,.26);
+      --glow:0 0 0 1px rgba(255,255,255,.08), 0 18px 50px rgba(109,91,255,.28), 0 12px 30px rgba(0,213,255,.12);
+      --ring:0 0 0 4px rgba(0,213,255,.22), 0 0 0 1px rgba(255,255,255,.12);
+      --borderGlow:linear-gradient(135deg, rgba(109,91,255,.95), rgba(0,213,255,.90), rgba(255,61,206,.72));
+
+      --radius-lg:26px;
+      --radius-md:18px;
       --safe-bottom:max(18px, env(safe-area-inset-bottom));
     }
     *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
@@ -25,10 +37,24 @@
       font-family:"PingFang SC","Microsoft YaHei",system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
       color:var(--text);
       background:
-        radial-gradient(circle at 0% 0%, rgba(124,92,255,.14), transparent 28%),
-        radial-gradient(circle at 100% 0%, rgba(79,124,255,.10), transparent 26%),
-        linear-gradient(180deg,#f8fbff,#f4f7fb);
+        radial-gradient(900px 520px at 12% 8%, rgba(109,91,255,.35), transparent 55%),
+        radial-gradient(840px 560px at 90% 10%, rgba(0,213,255,.26), transparent 58%),
+        radial-gradient(720px 520px at 50% 92%, rgba(255,61,206,.18), transparent 60%),
+        radial-gradient(1px 1px at 20% 30%, rgba(255,255,255,.35), transparent 2px),
+        radial-gradient(1px 1px at 70% 60%, rgba(255,255,255,.25), transparent 2px),
+        linear-gradient(180deg, var(--bg0), var(--bg1));
       min-height:100vh;
+    }
+    body:before{
+      content:"";
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      background:
+        radial-gradient(1200px 680px at 50% -10%, rgba(255,255,255,.06), transparent 55%),
+        repeating-linear-gradient(90deg, rgba(255,255,255,.018), rgba(255,255,255,.018) 1px, transparent 1px, transparent 6px);
+      mix-blend-mode:overlay;
+      opacity:.55;
     }
     .app{
       width:min(100%,780px);
@@ -41,11 +67,16 @@
       from{opacity:0;transform:translateY(8px)}
       to{opacity:1;transform:translateY(0)}
     }
+    @media (prefers-reduced-motion: reduce){
+      .screen.active{animation:none}
+      button{transition:none}
+      html:focus-within{scroll-behavior:auto}
+    }
 
     .hero{
       position:relative;overflow:hidden;border-radius:30px;padding:24px 18px;color:#fff;
-      background:linear-gradient(135deg,var(--primary),var(--primary2));
-      box-shadow:0 24px 50px rgba(79,124,255,.22);
+      background:linear-gradient(135deg, rgba(109,91,255,.98), rgba(0,213,255,.90));
+      box-shadow:var(--glow);
     }
     .hero:before{
       content:"";position:absolute;right:-40px;top:-40px;width:180px;height:180px;border-radius:50%;
@@ -71,14 +102,20 @@
       display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:16px;position:relative;z-index:1;
     }
     .glass{
-      background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.16);
+      background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.18);
       border-radius:18px;padding:14px 12px;backdrop-filter:blur(10px);
     }
     .glass .k{font-size:11px;color:rgba(255,255,255,.82);margin-bottom:6px}
     .glass .v{font-size:20px;font-weight:900}
 
     .card{
-      background:#fff;border-radius:24px;box-shadow:var(--shadow);padding:18px;margin-top:14px;
+      background:var(--card0);
+      border-radius:var(--radius-lg);
+      box-shadow:var(--shadow);
+      padding:18px;
+      margin-top:14px;
+      border:1px solid rgba(255,255,255,.10);
+      backdrop-filter:blur(14px);
     }
     .title{margin:0 0 8px;font-size:22px;letter-spacing:-.4px}
     .sub{color:var(--muted);font-size:13px;line-height:1.8}
@@ -89,13 +126,20 @@
       margin-top:14px;
     }
     .label{
-      font-size:13px;font-weight:800;color:#344054;margin-bottom:8px;
+      font-size:13px;font-weight:800;color:rgba(234,240,255,.85);margin-bottom:8px;
     }
     .input{
-      width:100%;border:1px solid var(--line);border-radius:16px;padding:14px 14px;font-size:15px;
-      outline:none;background:#fff;
+      width:100%;
+      border:1px solid rgba(255,255,255,.12);
+      border-radius:16px;
+      padding:14px 14px;
+      font-size:15px;
+      outline:none;
+      background:rgba(255,255,255,.06);
+      color:var(--text);
     }
-    .input:focus{border-color:var(--primary);box-shadow:0 0 0 4px rgba(79,124,255,.08)}
+    .input::placeholder{color:rgba(234,240,255,.55)}
+    .input:focus{border-color:rgba(0,213,255,.55);box-shadow:var(--ring)}
 
     .avatar-box{
       display:flex;align-items:center;gap:14px;flex-wrap:wrap;
@@ -109,22 +153,32 @@
     .avatar-actions{display:flex;gap:10px;flex-wrap:wrap}
     .file-btn{
       display:inline-flex;align-items:center;justify-content:center;border-radius:14px;padding:12px 14px;
-      background:#eef2ff;border:none;color:#344054;font-weight:800;font-size:14px;cursor:pointer;
+      background:rgba(255,255,255,.08);
+      border:1px solid rgba(255,255,255,.14);
+      color:rgba(234,240,255,.92);
+      font-weight:800;font-size:14px;cursor:pointer;
+      box-shadow:0 10px 26px rgba(0,0,0,.22);
     }
     .file-input{display:none}
 
     .intro-list{display:grid;gap:12px;margin-top:16px}
     .intro-item{
-      border:1px solid var(--line);border-radius:18px;padding:16px;background:linear-gradient(180deg,#fff,#fbfdff);
+      border:1px solid rgba(255,255,255,.10);
+      border-radius:18px;
+      padding:16px;
+      background:linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.04));
       box-shadow:var(--shadow-soft);
     }
     .intro-top{display:flex;align-items:center;gap:10px;margin-bottom:8px}
     .icon{
       width:38px;height:38px;border-radius:12px;display:flex;align-items:center;justify-content:center;
-      background:var(--soft);color:var(--primary);font-weight:900;font-size:12px;
+      background:linear-gradient(135deg, rgba(109,91,255,.25), rgba(0,213,255,.18));
+      color:#EAF0FF;
+      border:1px solid rgba(255,255,255,.14);
+      font-weight:900;font-size:12px;
     }
     .intro-item h3{margin:0;font-size:16px}
-    .intro-item p{margin:0;color:var(--muted);font-size:13px;line-height:1.8}
+    .intro-item p{margin:0;color:rgba(234,240,255,.70);font-size:13px;line-height:1.8}
 
     .btn-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
     button{
@@ -132,14 +186,38 @@
       padding:14px 16px;min-height:48px;
     }
     button:active{transform:scale(.98)}
-    .btn-primary{
-      color:#fff;background:linear-gradient(135deg,var(--primary),var(--primary2));
-      box-shadow:0 14px 28px rgba(79,124,255,.22);flex:1;
+    button:focus-visible,
+    .gallery-card:focus-visible,
+    .icon-btn:focus-visible,
+    .mini-btn:focus-visible,
+    .detail-back:focus-visible{
+      outline:3px solid rgba(0,213,255,.55);
+      outline-offset:2px;
     }
-    .btn-secondary{color:#344054;background:#eef2ff;flex:1}
-    .btn-ghost{color:#344054;background:#fff;border:1px solid var(--line);flex:1}
+    .btn-primary{
+      color:#081024;
+      background:linear-gradient(135deg, rgba(0,213,255,1), rgba(109,91,255,1), rgba(255,61,206,.92));
+      box-shadow:0 18px 46px rgba(0,213,255,.20), 0 18px 46px rgba(109,91,255,.22);
+      flex:1;
+    }
+    .btn-secondary{
+      color:rgba(234,240,255,.92);
+      background:rgba(255,255,255,.08);
+      border:1px solid rgba(255,255,255,.14);
+      box-shadow:0 10px 26px rgba(0,0,0,.22);
+      flex:1
+    }
+    .btn-ghost{
+      color:rgba(234,240,255,.92);
+      background:rgba(255,255,255,.04);
+      border:1px solid rgba(255,255,255,.12);
+      flex:1
+    }
     .mini-btn{
-      border:1px solid var(--line);background:#fff;color:#344054;border-radius:14px;padding:10px 12px;
+      border:1px solid rgba(255,255,255,.14);
+      background:rgba(255,255,255,.06);
+      color:rgba(234,240,255,.92);
+      border-radius:14px;padding:10px 12px;
       font-size:13px;font-weight:800;min-height:auto;cursor:pointer;
     }
 
@@ -147,56 +225,68 @@
       display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px;
     }
     .progress-box{
-      border-radius:18px;padding:14px;background:linear-gradient(180deg,#f8fbff,#fff);
-      border:1px solid var(--line);margin-bottom:14px;
+      border-radius:18px;padding:14px;
+      background:linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.04));
+      border:1px solid rgba(255,255,255,.12);
+      margin-bottom:14px;
+      box-shadow:var(--shadow-soft);
     }
     .progress-meta{
       display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:10px;
-      font-size:13px;font-weight:800;color:#475467;
+      font-size:13px;font-weight:800;color:rgba(234,240,255,.78);
     }
     .progress{
-      width:100%;height:10px;border-radius:999px;background:#e8eef7;overflow:hidden;
+      width:100%;height:10px;border-radius:999px;background:rgba(255,255,255,.08);overflow:hidden;
     }
     .progress-fill{
-      width:0%;height:100%;border-radius:999px;background:linear-gradient(90deg,var(--primary),var(--primary2));
+      width:0%;height:100%;border-radius:999px;background:linear-gradient(90deg, rgba(0,213,255,1), rgba(109,91,255,1), rgba(255,61,206,.92));
       transition:width .28s ease;
     }
     .dimension-row{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:12px}
     .chip{
-      font-size:12px;padding:10px;border-radius:14px;border:1px solid var(--line);background:#fff;color:#475467;
+      font-size:12px;padding:10px;border-radius:14px;border:1px solid rgba(255,255,255,.12);
+      background:rgba(255,255,255,.04);color:rgba(234,240,255,.78);
       text-align:center;font-weight:700;
     }
 
     .question-card{
-      border:1px solid var(--line);border-radius:24px;padding:18px;background:linear-gradient(180deg,#fff,#fcfdff);
+      border:1px solid rgba(255,255,255,.12);
+      border-radius:24px;
+      padding:18px;
+      background:linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.04));
       box-shadow:var(--shadow-soft);
+      backdrop-filter:blur(14px);
     }
     .q-badge{
       display:inline-flex;align-items:center;gap:8px;border-radius:999px;background:var(--soft);color:var(--primary);
       font-weight:900;font-size:12px;padding:8px 12px;margin-bottom:12px;
+      border:1px solid rgba(255,255,255,.12);
     }
     .q-title{
       margin:0;font-size:24px;line-height:1.5;letter-spacing:-.3px;
     }
     .q-desc{
-      margin-top:8px;color:var(--muted);font-size:13px;line-height:1.8;
+      margin-top:8px;color:rgba(234,240,255,.70);font-size:13px;line-height:1.8;
     }
 
     .scale-wrap{margin-top:18px}
     .scale-hint{
-      display:flex;justify-content:space-between;gap:8px;color:#667085;font-size:12px;font-weight:800;margin-bottom:10px;
+      display:flex;justify-content:space-between;gap:8px;color:rgba(234,240,255,.62);font-size:12px;font-weight:800;margin-bottom:10px;
     }
     .scale-grid{
       display:grid;grid-template-columns:repeat(5,1fr);gap:10px;
     }
     .scale-btn{
-      background:#fff;border:1.5px solid var(--line);border-radius:18px;padding:14px 8px;text-align:center;
-      box-shadow:0 8px 24px rgba(15,23,42,.04);
+      background:rgba(255,255,255,.05);
+      border:1.5px solid rgba(255,255,255,.12);
+      border-radius:18px;padding:14px 8px;text-align:center;
+      box-shadow:0 10px 28px rgba(0,0,0,.22);
       min-height:88px;
     }
     .scale-btn.active{
-      border-color:var(--primary);background:linear-gradient(180deg,#fff,#f5f9ff);
-      box-shadow:0 14px 30px rgba(79,124,255,.10);
+      border-color:rgba(0,213,255,.65);
+      background:linear-gradient(180deg, rgba(0,213,255,.16), rgba(109,91,255,.12));
+      box-shadow:0 0 0 1px rgba(255,255,255,.10), 0 18px 50px rgba(0,213,255,.20), 0 18px 50px rgba(109,91,255,.22);
     }
     .scale-num{
       width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;
@@ -204,22 +294,29 @@
       background:linear-gradient(135deg,var(--primary),var(--primary2));
     }
     .scale-text{
-      font-size:12px;line-height:1.5;color:#344054;font-weight:800;
+      font-size:12px;line-height:1.5;color:rgba(234,240,255,.88);font-weight:800;
     }
 
     .bottom-actions{
       position:sticky;bottom:calc(10px + var(--safe-bottom));margin-top:14px;z-index:10;
     }
     .bottom-bar{
-      display:grid;grid-template-columns:1fr 1.3fr 1fr;gap:10px;background:rgba(255,255,255,.90);
-      backdrop-filter:blur(14px);border:1px solid rgba(230,235,242,.9);border-radius:22px;padding:10px;
-      box-shadow:0 14px 30px rgba(15,23,42,.10);
+      display:grid;
+      grid-template-columns:1fr 1.3fr 1fr;
+      gap:10px;
+      background:rgba(255,255,255,.06);
+      backdrop-filter:blur(16px);
+      border:1px solid rgba(255,255,255,.12);
+      border-radius:22px;
+      padding:10px;
+      box-shadow:0 18px 46px rgba(0,0,0,.34);
     }
     .bottom-bar button[disabled]{opacity:.45;cursor:not-allowed}
 
     .result-hero{
       position:relative;overflow:hidden;border-radius:28px;color:#fff;padding:22px 18px;
-      background:linear-gradient(135deg,var(--primary),var(--primary2));box-shadow:0 24px 50px rgba(79,124,255,.20);
+      background:linear-gradient(135deg, rgba(109,91,255,.98), rgba(0,213,255,.90), rgba(255,61,206,.78));
+      box-shadow:var(--glow);
     }
     .result-hero:before{
       content:"";position:absolute;right:-36px;top:-38px;width:180px;height:180px;border-radius:50%;
@@ -254,37 +351,94 @@
       font-size:12px;font-weight:800;
     }
 
+    .share-preview{
+      border:1px solid rgba(255,255,255,.14);
+      background:linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.05));
+      border-radius:22px;
+      padding:16px;
+      box-shadow:0 22px 60px rgba(0,0,0,.32);
+      backdrop-filter:blur(16px);
+    }
+    .share-preview .head{
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:10px;
+      margin-bottom:10px;
+    }
+    .share-preview .h{
+      font-size:16px;
+      font-weight:900;
+      color:rgba(234,240,255,.95);
+      margin:0;
+    }
+    .share-preview .p{
+      margin:6px 0 0;
+      font-size:13px;
+      color:rgba(234,240,255,.72);
+      line-height:1.75;
+    }
+    .code-chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+    .code-chip{
+      display:inline-flex;align-items:center;gap:8px;
+      padding:8px 10px;border-radius:999px;
+      background:rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.12);
+      font-size:12px;font-weight:900;color:rgba(234,240,255,.92);
+    }
+    .code-chip .k{
+      width:22px;height:22px;border-radius:999px;
+      display:flex;align-items:center;justify-content:center;
+      background:linear-gradient(135deg, rgba(0,213,255,1), rgba(255,61,206,.88));
+      color:#081024;
+    }
+    .share-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+
     .grid{display:grid;gap:14px;margin-top:14px}
     .section-card{
-      background:#fff;border:1px solid var(--line);border-radius:22px;padding:16px;box-shadow:var(--shadow-soft);
+      background:linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.04));
+      border:1px solid rgba(255,255,255,.12);
+      border-radius:22px;
+      padding:16px;
+      box-shadow:var(--shadow-soft);
+      backdrop-filter:blur(14px);
     }
     .section-card h3{margin:0 0 12px;font-size:18px}
     .metrics{display:grid;gap:12px}
     .metric{
-      border:1px solid var(--line);border-radius:16px;padding:14px;background:linear-gradient(180deg,#fff,#fcfdff);
+      border:1px solid rgba(255,255,255,.12);
+      border-radius:16px;
+      padding:14px;
+      background:linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.04));
     }
-    .metric .label{font-size:12px;color:var(--muted);margin-bottom:8px;font-weight:800}
+    .metric .label{font-size:12px;color:rgba(234,240,255,.70);margin-bottom:8px;font-weight:800}
     .pair{
-      display:flex;justify-content:space-between;gap:8px;font-size:12px;font-weight:800;margin-bottom:8px;color:#344054;
+      display:flex;justify-content:space-between;gap:8px;font-size:12px;font-weight:800;margin-bottom:8px;color:rgba(234,240,255,.82);
     }
     .bar{
-      width:100%;height:10px;border-radius:999px;overflow:hidden;background:#e7edf7;
+      width:100%;height:10px;border-radius:999px;overflow:hidden;background:rgba(255,255,255,.08);
     }
     .bar span{
-      display:block;width:50%;height:100%;border-radius:999px;background:linear-gradient(90deg,var(--primary),var(--primary2));
+      display:block;width:50%;height:100%;border-radius:999px;background:linear-gradient(90deg, rgba(0,213,255,1), rgba(109,91,255,1), rgba(255,61,206,.92));
     }
-    ul{margin:0;padding-left:18px;color:#334155;line-height:1.85;font-size:14px}
+    ul{margin:0;padding-left:18px;color:rgba(234,240,255,.86);line-height:1.85;font-size:14px}
     .result-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
     .note{
-      margin-top:14px;border-radius:18px;padding:14px 16px;background:#f8fbff;border:1px dashed #cfd7e6;
-      color:#475467;font-size:13px;line-height:1.8;
+      margin-top:14px;border-radius:18px;padding:14px 16px;
+      background:rgba(255,255,255,.05);
+      border:1px dashed rgba(255,255,255,.22);
+      color:rgba(234,240,255,.70);
+      font-size:13px;line-height:1.8;
     }
 
     .radar-box{
       display:grid;gap:14px;
     }
     .radar-canvas-wrap{
-      border:1px solid var(--line);border-radius:20px;padding:12px;background:linear-gradient(180deg,#fff,#fbfdff);
+      border:1px solid rgba(255,255,255,.12);
+      border-radius:20px;
+      padding:12px;
+      background:linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.04));
     }
     .radar-canvas-wrap canvas{width:100%;display:block}
 
@@ -294,18 +448,128 @@
     }
     .poster-modal.show{display:flex}
     .poster-panel{
-      width:min(100%,720px);max-height:92vh;overflow:auto;background:#fff;border-radius:24px 24px 18px 18px;
-      padding:16px;box-shadow:0 30px 60px rgba(2,6,23,.28);
+      width:min(100%,720px);
+      max-height:92vh;
+      overflow:auto;
+      background:linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.06));
+      border-radius:24px 24px 18px 18px;
+      padding:16px;
+      border:1px solid rgba(255,255,255,.14);
+      box-shadow:0 30px 70px rgba(0,0,0,.45);
+      backdrop-filter:blur(18px);
     }
     .poster-head{
       display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:14px;
     }
+    .poster-sub{
+      margin-top:-6px;
+      margin-bottom:12px;
+      font-size:13px;
+      color:rgba(234,240,255,.72);
+      line-height:1.7;
+    }
+    .poster-badges{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+    .poster-badge{
+      display:inline-flex;align-items:center;gap:8px;
+      padding:7px 10px;border-radius:999px;
+      background:rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.12);
+      color:rgba(234,240,255,.92);
+      font-size:12px;font-weight:900;
+    }
+    .btn-primary.loading{opacity:.85;cursor:wait;position:relative}
+    .btn-primary.loading:after{
+      content:"";
+      width:14px;height:14px;border-radius:999px;
+      border:2px solid rgba(8,16,36,.55);
+      border-top-color:rgba(8,16,36,.12);
+      display:inline-block;
+      margin-left:10px;
+      animation:spin .75s linear infinite;
+      vertical-align:-2px;
+    }
+    @keyframes spin{to{transform:rotate(360deg)}}
     .poster-preview{
-      background:#f4f7fb;border:1px solid var(--line);border-radius:18px;padding:10px;overflow:auto;
+      background:rgba(255,255,255,.04);
+      border:1px solid rgba(255,255,255,.12);
+      border-radius:18px;
+      padding:10px;
+      overflow:auto;
     }
     .poster-preview canvas{
-      width:100%;display:block;border-radius:14px;background:#fff;
+      width:100%;
+      display:block;
+      border-radius:14px;
+      background:rgba(255,255,255,.06);
     }
+
+    /* ===== Toast / Confirm（社交活动页交互反馈） ===== */
+    .toast-host{
+      position:fixed;
+      left:0;
+      right:0;
+      bottom:calc(14px + var(--safe-bottom));
+      z-index:99999;
+      display:flex;
+      justify-content:center;
+      pointer-events:none;
+      padding:0 14px;
+    }
+    .toast{
+      pointer-events:auto;
+      width:min(560px,100%);
+      background:linear-gradient(180deg, rgba(255,255,255,.14), rgba(255,255,255,.08));
+      border:1px solid rgba(255,255,255,.16);
+      box-shadow:0 26px 70px rgba(0,0,0,.45);
+      backdrop-filter:blur(18px);
+      border-radius:18px;
+      padding:12px 12px;
+      display:flex;
+      align-items:flex-start;
+      gap:10px;
+      transform:translateY(10px);
+      opacity:0;
+      transition:transform .22s ease, opacity .22s ease;
+    }
+    .toast.show{transform:translateY(0);opacity:1}
+    .toast .dot{
+      width:10px;height:10px;border-radius:999px;flex:0 0 auto;margin-top:6px;
+      background:linear-gradient(135deg, var(--primary2), var(--accent));
+      box-shadow:0 0 0 3px rgba(0,213,255,.12), 0 14px 30px rgba(0,213,255,.18);
+    }
+    .toast .msg{font-size:14px;line-height:1.65;color:rgba(234,240,255,.92);font-weight:800}
+    .toast .close{
+      margin-left:auto;
+      border:1px solid rgba(255,255,255,.14);
+      background:rgba(255,255,255,.06);
+      color:rgba(234,240,255,.90);
+      width:34px;height:34px;border-radius:999px;min-height:auto;padding:0;
+      display:flex;align-items:center;justify-content:center;
+    }
+
+    .confirm-mask{
+      position:fixed;
+      inset:0;
+      z-index:99998;
+      display:none;
+      align-items:flex-end;
+      justify-content:center;
+      padding:14px;
+      background:rgba(0,0,0,.55);
+    }
+    .confirm-mask.show{display:flex}
+    .confirm-panel{
+      width:min(720px,100%);
+      border-radius:24px 24px 18px 18px;
+      background:linear-gradient(180deg, rgba(255,255,255,.12), rgba(255,255,255,.06));
+      border:1px solid rgba(255,255,255,.16);
+      box-shadow:0 34px 90px rgba(0,0,0,.55);
+      backdrop-filter:blur(18px);
+      padding:16px;
+    }
+    .confirm-title{font-size:16px;font-weight:900;color:rgba(234,240,255,.95);margin:0 0 6px}
+    .confirm-desc{font-size:13px;color:rgba(234,240,255,.74);line-height:1.75;margin:0}
+    .confirm-actions{display:flex;gap:10px;margin-top:14px}
 
     @media (min-width:768px){
       .app{padding-top:22px}
@@ -319,11 +583,12 @@
 
     /* ===== 人格解释 / 图鉴增强 ===== */
     .explain-card{
-      background:#fff;
-      border:1px solid #e8edf5;
+      background:linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.04));
+      border:1px solid rgba(255,255,255,.12);
       border-radius:20px;
       padding:18px;
-      box-shadow:0 10px 30px rgba(15,23,42,.06);
+      box-shadow:var(--shadow-soft);
+      backdrop-filter:blur(14px);
     }
 
     .explain-grid{
@@ -333,8 +598,8 @@
     }
 
     .explain-block{
-      background:#f8fbff;
-      border:1px solid #e8eef8;
+      background:rgba(255,255,255,.05);
+      border:1px solid rgba(255,255,255,.12);
       border-radius:16px;
       padding:14px;
     }
@@ -345,7 +610,7 @@
 
     .explain-block .label{
       font-size:12px;
-      color:#6b7280;
+      color:rgba(234,240,255,.72);
       margin-bottom:8px;
       font-weight:700;
       letter-spacing:.2px;
@@ -353,14 +618,14 @@
 
     .explain-block .text{
       font-size:14px;
-      color:#111827;
+      color:rgba(234,240,255,.90);
       line-height:1.7;
     }
 
     .explain-block ul{
       margin:0;
       padding-left:18px;
-      color:#111827;
+      color:rgba(234,240,255,.88);
     }
 
     .explain-block li{
@@ -372,14 +637,14 @@
       margin-top:14px;
       padding:14px 16px;
       border-radius:16px;
-      background:linear-gradient(135deg,#eff6ff,#f8fbff);
-      border:1px solid #dbeafe;
+      background:linear-gradient(135deg, rgba(0,213,255,.14), rgba(109,91,255,.10));
+      border:1px solid rgba(255,255,255,.14);
     }
 
     .quote-box .quote{
       font-size:15px;
       font-weight:800;
-      color:#1d4ed8;
+      color:rgba(234,240,255,.92);
       line-height:1.7;
     }
 
@@ -398,11 +663,16 @@
     }
 
     .gallery-card{
-      background:#fff;
-      border:1px solid #e7ecf3;
+      background:linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.04));
+      border:1px solid rgba(255,255,255,.12);
       border-radius:18px;
       padding:14px;
-      box-shadow:0 8px 24px rgba(15,23,42,.05);
+      box-shadow:0 18px 50px rgba(0,0,0,.26);
+      cursor:pointer;
+    }
+    .gallery-card:hover{
+      box-shadow:0 0 0 1px rgba(255,255,255,.10), 0 22px 60px rgba(0,213,255,.14), 0 22px 60px rgba(255,61,206,.12);
+      border-color:rgba(0,213,255,.30);
     }
 
     .gallery-card .top{
@@ -416,9 +686,9 @@
     .gallery-code{
       font-size:12px;
       font-weight:800;
-      color:#2563eb;
-      background:#eff6ff;
-      border:1px solid #dbeafe;
+      color:rgba(234,240,255,.92);
+      background:rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.12);
       padding:4px 8px;
       border-radius:999px;
     }
@@ -426,12 +696,12 @@
     .gallery-name{
       font-size:15px;
       font-weight:800;
-      color:#111827;
+      color:rgba(234,240,255,.95);
     }
 
     .gallery-brief{
       font-size:13px;
-      color:#4b5563;
+      color:rgba(234,240,255,.70);
       line-height:1.6;
       margin:8px 0 10px;
     }
@@ -445,28 +715,47 @@
 
     .gallery-tag{
       font-size:12px;
-      color:#374151;
-      background:#f3f4f6;
+      color:rgba(234,240,255,.86);
+      background:rgba(255,255,255,.06);
       border-radius:999px;
       padding:5px 8px;
+      border:1px solid rgba(255,255,255,.10);
     }
 
     .gallery-quote{
       margin-top:10px;
       padding:10px 12px;
       border-radius:12px;
-      background:#f8fbff;
-      color:#1d4ed8;
+      background:linear-gradient(135deg, rgba(0,213,255,.12), rgba(255,61,206,.10));
+      color:rgba(234,240,255,.92);
       font-size:13px;
       font-weight:700;
       line-height:1.6;
     }
 
-    .gallery-card{
-      cursor:pointer;
-    }
     .gallery-card:active{
       transform:scale(.99);
+    }
+
+    /* ===== inline style 收敛 ===== */
+    .result-core{
+      font-size:16px;
+      color:rgba(234,240,255,.92);
+      font-weight:800;
+    }
+    .radar-desc{
+      font-size:14px;
+      line-height:1.9;
+    }
+    .explain-summary{
+      margin-top:10px;
+      font-size:15px;
+      color:rgba(234,240,255,.92);
+    }
+    .mt-14{margin-top:14px}
+    .detail-quote-strong{
+      font-weight:900;
+      color:rgba(234,240,255,.95);
     }
 
     .modal-mask{
@@ -487,10 +776,12 @@
       width:min(920px,100%);
       max-height:88vh;
       overflow:auto;
-      background:#f8fafc;
+      background:linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.06));
       border-radius:24px 24px 0 0;
       padding:18px 16px 28px;
-      box-shadow:0 -10px 40px rgba(0,0,0,.18);
+      border:1px solid rgba(255,255,255,.14);
+      box-shadow:0 -12px 60px rgba(0,0,0,.50);
+      backdrop-filter:blur(18px);
     }
 
     .modal-head{
@@ -504,13 +795,13 @@
     .modal-title{
       font-size:18px;
       font-weight:900;
-      color:#111827;
+      color:rgba(234,240,255,.95);
     }
 
     .icon-btn{
       border:none;
-      background:#eef2f7;
-      color:#111827;
+      background:rgba(255,255,255,.08);
+      color:rgba(234,240,255,.92);
       width:36px;
       height:36px;
       border-radius:999px;
@@ -518,6 +809,7 @@
       cursor:pointer;
       min-height:auto;
       padding:0;
+      border:1px solid rgba(255,255,255,.14);
     }
 
     .detail-topbar{
@@ -528,9 +820,9 @@
       margin:8px 0 10px;
     }
     .detail-back{
-      border:1px solid var(--line);
-      background:#fff;
-      color:#344054;
+      border:1px solid rgba(255,255,255,.14);
+      background:rgba(255,255,255,.06);
+      color:rgba(234,240,255,.92);
       border-radius:14px;
       padding:10px 12px;
       font-size:13px;
@@ -542,7 +834,7 @@
       border-radius:18px;
       padding:16px;
       color:#fff;
-      box-shadow:0 14px 28px rgba(15,23,42,.10);
+      box-shadow:var(--glow);
       position:relative;
       overflow:hidden;
     }
@@ -591,27 +883,28 @@
     }
     .detail-section{
       margin-top:12px;
-      background:#fff;
-      border:1px solid #e7ecf3;
+      background:linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.04));
+      border:1px solid rgba(255,255,255,.12);
       border-radius:18px;
       padding:14px;
-      box-shadow:0 8px 24px rgba(15,23,42,.05);
+      box-shadow:0 18px 50px rgba(0,0,0,.22);
+      backdrop-filter:blur(14px);
     }
     .detail-section .h{
       margin:0 0 8px;
       font-size:15px;
       font-weight:900;
-      color:#111827;
+      color:rgba(234,240,255,.95);
     }
     .detail-section .t{
       font-size:13px;
-      color:#334155;
+      color:rgba(234,240,255,.72);
       line-height:1.85;
     }
     .detail-section ul{
       margin:0;
       padding-left:18px;
-      color:#334155;
+      color:rgba(234,240,255,.78);
       line-height:1.85;
       font-size:13px;
     }
@@ -772,9 +1065,24 @@
     </div>
 
     <div class="grid">
+      <div class="share-preview">
+        <div class="head">
+          <div>
+            <div class="h">一键分享你的球风人格</div>
+            <div class="p">复制社交文案或生成海报发朋友圈，让朋友也来测一测。</div>
+          </div>
+        </div>
+        <div id="shareCodeChips" class="code-chips"></div>
+        <div id="sharePreviewText" class="p" style="margin-top:10px;"></div>
+        <div class="share-actions">
+          <button class="btn-secondary" onclick="shareResult()">复制分享文案</button>
+          <button class="btn-primary" onclick="openPoster()">生成霓虹长图海报</button>
+        </div>
+      </div>
+
       <div class="section-card">
         <h3>核心定位</h3>
-        <div id="resultCore" class="sub" style="font-size:16px;color:#111827;font-weight:800;"></div>
+        <div id="resultCore" class="sub result-core"></div>
         <div class="sub" style="margin-top:8px;">
           你的人格类型代表你在比赛中建立优势、组织回合、应对波动与执行战术的整体方式。
         </div>
@@ -786,7 +1094,7 @@
           <div class="radar-canvas-wrap">
             <canvas id="resultRadarCanvas" width="640" height="640"></canvas>
           </div>
-          <div class="sub" style="font-size:14px;line-height:1.9;">
+          <div class="sub radar-desc">
             雷达图从四个主维度抽象出你的球风重心：<br/>
             <strong>主动压制、速度爆发、战术规划、竞技气场</strong>。<br/><br/>
             数值不是绝对能力评分，而是你在本次测试中的风格倾向强弱。
@@ -837,9 +1145,9 @@
           </div>
         </div>
 
-        <div id="explainSummary" class="sub" style="margin-top:10px;font-size:15px;color:#111827;"></div>
+        <div id="explainSummary" class="sub explain-summary"></div>
 
-        <div class="explain-grid" style="margin-top:14px;">
+        <div class="explain-grid mt-14">
           <div class="explain-block">
             <div class="label">核心优势</div>
             <ul id="strengthList"></ul>
@@ -902,26 +1210,48 @@
   </section>
 </div>
 
+<!-- Toast 容器 -->
+<div id="toastHost" class="toast-host" aria-live="polite" aria-atomic="true"></div>
+
+<!-- Confirm 弹层 -->
+<div id="confirmMask" class="confirm-mask" role="dialog" aria-modal="true" aria-label="确认操作" onclick="closeConfirm(event)">
+  <div class="confirm-panel" tabindex="-1" onclick="event.stopPropagation()">
+    <div class="confirm-title" id="confirmTitle">确认操作</div>
+    <div class="confirm-desc" id="confirmDesc"></div>
+    <div class="confirm-actions">
+      <button class="btn-ghost" id="confirmCancelBtn" onclick="resolveConfirm(false)">取消</button>
+      <button class="btn-primary" id="confirmOkBtn" onclick="resolveConfirm(true)">确定</button>
+    </div>
+  </div>
+</div>
+
 <!-- 海报弹层 -->
-<div id="posterModal" class="poster-modal">
-  <div class="poster-panel">
+<div id="posterModal" class="poster-modal" role="dialog" aria-modal="true" aria-label="微信长图海报预览" onclick="closePoster(event)">
+  <div class="poster-panel" tabindex="-1" onclick="event.stopPropagation()">
     <div class="poster-head">
-      <strong style="font-size:18px;">微信长图海报预览</strong>
+      <strong style="font-size:18px;">霓虹长图海报</strong>
       <button class="mini-btn" onclick="closePoster()">关闭</button>
+    </div>
+    <div class="poster-sub">
+      长按保存或点击下载，把你的球风人格发到朋友圈/群聊，看看谁和你最像。
+      <div class="poster-badges">
+        <span class="poster-badge">类型 <span id="posterBadgeCode">ASMF</span></span>
+        <span class="poster-badge">#乒乓球人格测试</span>
+      </div>
     </div>
     <div class="poster-preview">
       <canvas id="posterCanvas" width="1242" height="3200"></canvas>
     </div>
     <div class="btn-row">
-      <button class="btn-primary" onclick="downloadPoster()">下载长图</button>
+      <button id="posterDownloadBtn" class="btn-primary" onclick="downloadPoster()">下载长图</button>
       <button class="btn-secondary" onclick="copyShareText()">复制分享文案</button>
     </div>
   </div>
 </div>
 
 <!-- 16 型人格图鉴弹层 -->
-<div id="typeGalleryModal" class="modal-mask" onclick="closeTypeGallery(event)">
-  <div class="modal-panel" onclick="event.stopPropagation()">
+<div id="typeGalleryModal" class="modal-mask" role="dialog" aria-modal="true" aria-label="16型乒乓球人格图鉴" onclick="closeTypeGallery(event)">
+  <div class="modal-panel" tabindex="-1" onclick="event.stopPropagation()">
     <div class="modal-head">
       <div>
         <div class="modal-title">16型乒乓球人格图鉴</div>
@@ -974,7 +1304,7 @@
       </div>
       <div class="detail-section">
         <div class="h">人格金句</div>
-        <div id="detailQuote" class="t" style="font-weight:900;color:#1d4ed8;"></div>
+        <div id="detailQuote" class="t detail-quote-strong"></div>
       </div>
     </div>
   </div>
@@ -1457,6 +1787,193 @@ function getInitialChar(name){
   return name.trim().slice(0,1).toUpperCase();
 }
 
+function debounce(fn, wait=400){
+  let t = null;
+  return function(...args){
+    clearTimeout(t);
+    t = setTimeout(() => fn.apply(this, args), wait);
+  };
+}
+
+function isQuotaExceededError(err){
+  if(!err) return false;
+  const name = String(err.name || "");
+  const code = Number(err.code || 0);
+  return name === "QuotaExceededError" || name === "NS_ERROR_DOM_QUOTA_REACHED" || code === 22 || code === 1014;
+}
+
+/* =========================
+   Toast / Confirm
+========================= */
+let toastTimer = null;
+function toast(message){
+  const host = document.getElementById("toastHost");
+  if(!host) return;
+
+  host.innerHTML = `
+    <div class="toast" role="status">
+      <div class="dot"></div>
+      <div class="msg"></div>
+      <button class="close" type="button" aria-label="关闭提示">×</button>
+    </div>
+  `;
+  const el = host.querySelector(".toast");
+  const msgEl = host.querySelector(".msg");
+  const closeBtn = host.querySelector(".close");
+  if(msgEl) msgEl.textContent = String(message || "");
+  if(closeBtn) closeBtn.onclick = () => hideToast();
+
+  clearTimeout(toastTimer);
+  requestAnimationFrame(() => el && el.classList.add("show"));
+  toastTimer = setTimeout(() => hideToast(), 2600);
+}
+function hideToast(){
+  const host = document.getElementById("toastHost");
+  if(!host) return;
+  const el = host.querySelector(".toast");
+  if(!el){ host.innerHTML = ""; return; }
+  el.classList.remove("show");
+  setTimeout(() => { host.innerHTML = ""; }, 220);
+}
+
+let confirmResolve = null;
+function openConfirm({ title="确认操作", desc="确定要继续吗？", okText="确定", cancelText="取消" } = {}){
+  const mask = document.getElementById("confirmMask");
+  if(!mask) return Promise.resolve(false);
+  const titleEl = document.getElementById("confirmTitle");
+  const descEl = document.getElementById("confirmDesc");
+  const okBtn = document.getElementById("confirmOkBtn");
+  const cancelBtn = document.getElementById("confirmCancelBtn");
+  if(titleEl) titleEl.textContent = title;
+  if(descEl) descEl.textContent = desc;
+  if(okBtn) okBtn.textContent = okText;
+  if(cancelBtn) cancelBtn.textContent = cancelText;
+
+  lastActiveEl = document.activeElement;
+  openDialogId = "confirmMask";
+  mask.classList.add("show");
+  lockBodyScroll();
+  setTimeout(() => mask.querySelector(".confirm-panel")?.focus?.(), 0);
+
+  return new Promise((resolve) => { confirmResolve = resolve; });
+}
+function resolveConfirm(ok){
+  const r = confirmResolve;
+  confirmResolve = null;
+  closeConfirm();
+  if(r) r(!!ok);
+}
+function closeConfirm(event){
+  if (event && event.target && event.target.closest && event.target.closest(".confirm-panel")) return;
+  const mask = document.getElementById("confirmMask");
+  if(!mask) return;
+  mask.classList.remove("show");
+  if(openDialogId === "confirmMask") openDialogId = "";
+  unlockBodyScroll();
+  setTimeout(() => {
+    if(lastActiveEl && lastActiveEl.focus) lastActiveEl.focus();
+    lastActiveEl = null;
+  }, 0);
+}
+
+/* =========================
+   弹层（焦点管理/滚动锁）
+========================= */
+let lastActiveEl = null;
+let openDialogId = ""; // "posterModal" | "typeGalleryModal" | ""
+let bodyLockCount = 0;
+
+function lockBodyScroll(){
+  bodyLockCount++;
+  if(bodyLockCount === 1) document.body.style.overflow = "hidden";
+}
+function unlockBodyScroll(){
+  bodyLockCount = Math.max(0, bodyLockCount - 1);
+  if(bodyLockCount === 0) document.body.style.overflow = "";
+}
+
+function getFocusable(container){
+  if(!container) return [];
+  const sel = [
+    "a[href]",
+    "button:not([disabled])",
+    "input:not([disabled])",
+    "select:not([disabled])",
+    "textarea:not([disabled])",
+    "[tabindex]:not([tabindex='-1'])"
+  ].join(",");
+  return Array.from(container.querySelectorAll(sel)).filter(el => {
+    const style = window.getComputedStyle(el);
+    return style.visibility !== "hidden" && style.display !== "none";
+  });
+}
+
+function openDialog(modalId, focusTargetSelector){
+  const modal = document.getElementById(modalId);
+  if(!modal) return;
+
+  lastActiveEl = document.activeElement;
+  openDialogId = modalId;
+  modal.classList.add("show");
+  lockBodyScroll();
+
+  setTimeout(() => {
+    const target = focusTargetSelector ? modal.querySelector(focusTargetSelector) : null;
+    const focusable = getFocusable(modal);
+    (target || focusable[0] || modal).focus?.();
+  }, 0);
+}
+
+function closeDialog(modalId){
+  const modal = document.getElementById(modalId);
+  if(!modal) return;
+  modal.classList.remove("show");
+  if(openDialogId === modalId) openDialogId = "";
+  unlockBodyScroll();
+  setTimeout(() => {
+    if(lastActiveEl && lastActiveEl.focus) lastActiveEl.focus();
+    lastActiveEl = null;
+  }, 0);
+}
+
+document.addEventListener("keydown", function(e){
+  if(!openDialogId) return;
+  const modal = document.getElementById(openDialogId);
+  if(!modal || !modal.classList.contains("show")) return;
+
+  if(e.key === "Escape"){
+    if(openDialogId === "typeGalleryModal"){
+      backToGalleryList();
+      closeDialog("typeGalleryModal");
+    }else if(openDialogId === "posterModal"){
+      closeDialog("posterModal");
+    }
+    e.preventDefault();
+    return;
+  }
+
+  if(e.key !== "Tab") return;
+  const focusable = getFocusable(modal);
+  if(!focusable.length){
+    e.preventDefault();
+    return;
+  }
+  const first = focusable[0];
+  const last = focusable[focusable.length - 1];
+  const active = document.activeElement;
+  if(e.shiftKey){
+    if(active === first || !modal.contains(active)){
+      last.focus();
+      e.preventDefault();
+    }
+  }else{
+    if(active === last){
+      first.focus();
+      e.preventDefault();
+    }
+  }
+});
+
 /* =========================
    存储
 ========================= */
@@ -1467,7 +1984,24 @@ function saveState(){
     currentResultCode,
     profile
   };
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+  try{
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    return true;
+  }catch(e){
+    // 微信内置浏览器下最常见：localStorage 配额不足（头像 base64 过大）
+    if(isQuotaExceededError(e)){
+      try{
+        const slim = { ...state, profile: { ...profile, avatarDataUrl:"" } };
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(slim));
+        profile.avatarDataUrl = "";
+        syncProfileUI();
+        return true;
+      }catch(_e){
+        return false;
+      }
+    }
+    return false;
+  }
 }
 
 function loadState(){
@@ -1505,22 +2039,73 @@ function syncProfileUI(){
   }
 }
 
+const persistNickname = debounce(() => saveState(), 450);
 document.getElementById("nicknameInput").addEventListener("input", function(e){
   profile.nickname = e.target.value.trim();
   syncProfileUI();
-  saveState();
+  persistNickname();
 });
+
+function compressImageToDataUrl(file, opts={}){
+  const maxSide = opts.maxSide ?? 384; // 微信上建议控制在 256~512
+  const quality = opts.quality ?? 0.82;
+  const mime = opts.mime ?? "image/jpeg";
+
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onerror = reject;
+    reader.onload = () => {
+      const img = new Image();
+      img.onerror = reject;
+      img.onload = () => {
+        const w = img.naturalWidth || img.width;
+        const h = img.naturalHeight || img.height;
+        if(!w || !h) return reject(new Error("invalid image"));
+
+        const scale = Math.min(1, maxSide / Math.max(w, h));
+        const tw = Math.max(1, Math.round(w * scale));
+        const th = Math.max(1, Math.round(h * scale));
+
+        const canvas = document.createElement("canvas");
+        canvas.width = tw;
+        canvas.height = th;
+        const ctx = canvas.getContext("2d");
+        ctx.fillStyle = "#fff";
+        ctx.fillRect(0,0,tw,th);
+        ctx.drawImage(img, 0, 0, tw, th);
+
+        // 若 jpeg 输出失败（极少数环境），兜底 png
+        let out = "";
+        try{
+          out = canvas.toDataURL(mime, quality);
+          if(!out || out.indexOf("data:") !== 0) throw new Error("toDataURL failed");
+        }catch(_){
+          out = canvas.toDataURL("image/png");
+        }
+        resolve(out);
+      };
+      img.src = String(reader.result || "");
+    };
+    reader.readAsDataURL(file);
+  });
+}
 
 document.getElementById("avatarInput").addEventListener("change", function(e){
   const file = e.target.files[0];
   if(!file) return;
-  const reader = new FileReader();
-  reader.onload = function(ev){
-    profile.avatarDataUrl = ev.target.result;
+  compressImageToDataUrl(file, { maxSide: 384, quality: 0.82, mime:"image/jpeg" }).then((dataUrl) => {
+    profile.avatarDataUrl = dataUrl;
     syncProfileUI();
-    saveState();
-  };
-  reader.readAsDataURL(file);
+    const ok = saveState();
+    if(!ok){
+      toast("头像保存失败（可能是存储空间不足），已临时不保存头像。");
+    }
+  }).catch(() => {
+    toast("头像读取失败，请换一张图片重试。");
+  }).finally(() => {
+    // 允许重复选择同一张图片
+    e.target.value = "";
+  });
 });
 
 function clearAvatar(){
@@ -1547,7 +2132,7 @@ function startTest(){
 function recoverIfPossible(){
   const ok = loadState();
   if(!ok){
-    alert("暂无可恢复的进度。");
+    toast("暂无可恢复的进度。");
     return;
   }
   const hasResult = currentResultCode && resultsMap[currentResultCode];
@@ -1568,8 +2153,14 @@ function restartTest(){
   renderQuestion();
 }
 
-function resetAnswersConfirm(){
-  if(confirm("确定要清空当前答题进度并重新开始吗？")){
+async function resetAnswersConfirm(){
+  const ok = await openConfirm({
+    title:"清空进度？",
+    desc:"确定要清空当前答题进度并重新开始吗？",
+    okText:"清空并重来",
+    cancelText:"先不清空"
+  });
+  if(ok){
     answers = new Array(questions.length).fill(null);
     currentQuestion = 0;
     currentResultCode = "";
@@ -1637,7 +2228,7 @@ function prevQuestion(){
 }
 function nextQuestion(){
   if(answers[currentQuestion] === null){
-    alert("请先完成这一题。");
+    toast("请先完成这一题。");
     return;
   }
   if(currentQuestion < questions.length - 1){
@@ -1654,7 +2245,7 @@ function submitTest(){
       currentQuestion = firstUnanswered;
       saveState();
       renderQuestion();
-      alert("你还有未完成的题目，已跳转到第一道未作答题。");
+      toast("你还有未完成的题目，已跳转到第一道未作答题。");
       return;
     }
   }
@@ -1814,7 +2405,7 @@ function renderGallery() {
   wrap.innerHTML = typeGallery.map(item => {
     const exp = resultExplainMap[item.code] || {};
     return `
-      <div class="gallery-card" role="button" tabindex="0" onclick="openTypeDetail('${item.code}')">
+      <div class="gallery-card" role="button" tabindex="0" data-code="${item.code}" onclick="openTypeDetail('${item.code}')">
         <div class="top">
           <div class="gallery-name">${item.name}</div>
           <div class="gallery-code">${item.code}</div>
@@ -1830,19 +2421,35 @@ function renderGallery() {
   }).join("");
 }
 
+let galleryKeyboardBound = false;
+function bindGalleryKeyboard(){
+  if(galleryKeyboardBound) return;
+  const wrap = document.getElementById("galleryGrid");
+  if(!wrap) return;
+  wrap.addEventListener("keydown", (e) => {
+    const card = e.target && e.target.closest ? e.target.closest(".gallery-card") : null;
+    if(!card) return;
+    if(e.key === "Enter" || e.key === " "){
+      const code = card.getAttribute("data-code");
+      if(code){
+        e.preventDefault();
+        openTypeDetail(code);
+      }
+    }
+  });
+  galleryKeyboardBound = true;
+}
+
 function openTypeGallery() {
   renderGallery();
-  const modal = document.getElementById("typeGalleryModal");
-  if (modal) modal.classList.add("show");
-  document.body.style.overflow = "hidden";
+  bindGalleryKeyboard();
+  openDialog("typeGalleryModal", ".modal-panel");
   backToGalleryList();
 }
 
 function closeTypeGallery(event) {
   if (event && event.target && event.target.closest && event.target.closest(".modal-panel")) return;
-  const modal = document.getElementById("typeGalleryModal");
-  if (modal) modal.classList.remove("show");
-  document.body.style.overflow = "";
+  closeDialog("typeGalleryModal");
 }
 
 function backToGalleryList(){
@@ -1904,16 +2511,7 @@ function openTypeDetail(code){
   scrollGalleryTop();
 }
 
-document.addEventListener("keydown", function(e){
-  if (e.key === "Escape") {
-    const modal = document.getElementById("typeGalleryModal");
-    if (modal && modal.classList.contains("show")) {
-      backToGalleryList();
-      modal.classList.remove("show");
-      document.body.style.overflow = "";
-    }
-  }
-});
+// Escape 关闭由通用弹层逻辑处理
 
 function renderScores(scores){
   const pairs = [
@@ -1966,6 +2564,19 @@ function showResult(){
   document.getElementById("resultTitle").textContent = result.title;
   document.getElementById("resultDesc").textContent = result.desc;
   document.getElementById("resultTags").innerHTML = code.split("").map(c => `<span class="tag">${typeTagMap[c]}</span>`).join("");
+
+  const chipsEl = document.getElementById("shareCodeChips");
+  if(chipsEl){
+    chipsEl.innerHTML = code.split("").map((c) => {
+      const name = typeTagMap[c] || "";
+      return `<span class="code-chip"><span class="k">${c}</span>${name}</span>`;
+    }).join("");
+  }
+  const shareTextEl = document.getElementById("sharePreviewText");
+  if(shareTextEl){
+    shareTextEl.textContent = buildShareText();
+  }
+
   document.getElementById("resultCore").textContent = `${typeCoreLabel[code[0]]} · ${typeCoreLabel[code[1]]} · ${typeCoreLabel[code[2]]} · ${typeCoreLabel[code[3]]}`;
   document.getElementById("scoreGrid").innerHTML = renderScores(scores);
 
@@ -2197,15 +2808,19 @@ function drawResultRadar(scores) {
 ========================= */
 function openPoster() {
   if (!currentResultCode || !resultsMap[currentResultCode]) {
-    alert("请先完成测试并生成结果。");
+    toast("请先完成测试并生成结果。");
     return;
   }
-  document.getElementById("posterModal").classList.add("show");
+  const badge = document.getElementById("posterBadgeCode");
+  if(badge) badge.textContent = currentResultCode;
+
+  openDialog("posterModal", ".poster-panel");
   generatePoster();
 }
 
-function closePoster() {
-  document.getElementById("posterModal").classList.remove("show");
+function closePoster(event) {
+  if (event && event.target && event.target.closest && event.target.closest(".poster-panel")) return;
+  closeDialog("posterModal");
 }
 
 async function loadImage(src) {
@@ -2289,6 +2904,22 @@ function drawWrappedText(ctx, text, x, y, maxWidth, lineHeight, maxLines = 99) {
 }
 
 async function generatePoster() {
+  const dlBtn = document.getElementById("posterDownloadBtn");
+  const setLoading = (on) => {
+    if(!dlBtn) return;
+    if(on){
+      dlBtn.classList.add("loading");
+      dlBtn.disabled = true;
+      dlBtn.textContent = "生成中";
+    }else{
+      dlBtn.classList.remove("loading");
+      dlBtn.disabled = false;
+      dlBtn.textContent = "下载长图";
+    }
+  };
+  setLoading(true);
+
+  try{
   const code = currentResultCode;
   const result = resultsMap[code];
   const scores = (lastScores && lastAnswerSig === getAnswerSignature()) ? lastScores : calculateScores();
@@ -2297,11 +2928,15 @@ async function generatePoster() {
   const quote = (resultExplainMap[code] && resultExplainMap[code].quote) ? resultExplainMap[code].quote : "";
 
   const canvas = document.getElementById("posterCanvas");
-  const ctx = canvas.getContext("2d");
-  const w = canvas.width;
-  const h = canvas.height;
+  const minH = 3200;
+  const footerReserve = 280; // 底部文案+安全留白，避免任何重叠
+  if(canvas.height < minH) canvas.height = minH;
 
-  ctx.clearRect(0, 0, w, h);
+  for(let pass=0; pass<3; pass++){
+    const ctx = canvas.getContext("2d");
+    const w = canvas.width;
+    const h = canvas.height;
+    ctx.clearRect(0, 0, w, h);
 
   // 背景
   const bg = ctx.createLinearGradient(0, 0, 0, h);
@@ -2460,7 +3095,14 @@ async function generatePoster() {
   y = drawInfoCard("双打搭档推荐", result.partner.slice(0,3), y);
   y = drawInfoCard("推荐训练模块", result.modules.slice(0,4), y);
 
-  // 底部
+  // 如果内容已逼近底部，动态增高画布并重绘
+  const needH = Math.max(minH, Math.ceil(y + footerReserve));
+  if(needH > h){
+    canvas.height = needH;
+    continue;
+  }
+
+  // 底部（永远在内容之后，不会覆盖）
   fillRoundRect(ctx, 46, h - 220, w - 92, 150, 30, "rgba(79,124,255,.08)");
   ctx.fillStyle = "#0f172a";
   ctx.font = "bold 34px sans-serif";
@@ -2468,14 +3110,40 @@ async function generatePoster() {
   ctx.fillStyle = "#64748b";
   ctx.font = "26px sans-serif";
   ctx.fillText("24题五级量表｜自动生成个人测试卡｜结果可社交分享", 84, h - 92);
+  break;
+  }
+  }finally{
+    setLoading(false);
+  }
 }
 
 function downloadPoster() {
   const canvas = document.getElementById("posterCanvas");
   const link = document.createElement("a");
   link.download = `乒乓球人格测试-${currentResultCode || "result"}.png`;
+  const safeClick = () => {
+    try{ link.click(); }catch(_e){ /* ignore */ }
+  };
+
+  if(canvas && canvas.toBlob){
+    canvas.toBlob((blob) => {
+      if(blob){
+        const url = URL.createObjectURL(blob);
+        link.href = url;
+        safeClick();
+        setTimeout(() => URL.revokeObjectURL(url), 1500);
+      }else{
+        // 兜底：某些 WebView 会返回 null
+        link.href = canvas.toDataURL("image/png");
+        safeClick();
+      }
+    }, "image/png");
+    return;
+  }
+
+  // 兜底：极老环境
   link.href = canvas.toDataURL("image/png");
-  link.click();
+  safeClick();
 }
 
 /* =========================
@@ -2493,7 +3161,7 @@ function shareResult() {
   const text = buildShareText();
   if (navigator.clipboard && window.isSecureContext) {
     navigator.clipboard.writeText(text).then(() => {
-      alert("结果文案已复制，可以直接去微信/朋友圈粘贴。");
+      toast("结果文案已复制，可以直接去微信/朋友圈粘贴。");
     }).catch(() => {
       fallbackCopy(text);
     });
@@ -2515,9 +3183,10 @@ function fallbackCopy(text) {
   textarea.select();
   try {
     document.execCommand("copy");
-    alert("分享文案已复制。");
+    toast("分享文案已复制。");
   } catch (e) {
-    alert("复制失败，请手动复制：\n\n" + text);
+    // 在移动端尽量让用户可直接长按复制
+    toast("复制失败：已为你选中文案，请长按复制。");
   }
   document.body.removeChild(textarea);
 }
